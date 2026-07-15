@@ -866,7 +866,7 @@
               </select>
             </label>
             <div class="setting-card toggle-row">
-              <div><span class="label">Imposter hint</span><small>Show the pack only</small></div>
+              <div><span class="label">Hint word</span><small>Vague clue for imposter</small></div>
               <button class="switch" id="hintToggle" type="button" role="switch" aria-checked="true" aria-label="Toggle imposter hint"></button>
             </div>
             <div class="setting-card toggle-row">
@@ -1053,6 +1053,63 @@
           { word: "Benson's Gumballs", hint: "Part of the manager, not a snack" }
         ]
       }
+    };
+
+    const IMPOSTER_HINTS = {
+      "Mordecai": "Bird",
+      "Rigby": "Tail",
+      "Benson": "Manager",
+      "Pops": "Gentleman",
+      "Skips": "Immortal",
+      "Muscle Man": "Green",
+      "High Five Ghost": "Floating",
+      "Eileen": "Glasses",
+      "Margaret": "Coffee",
+      "CJ": "Weather",
+      "Thomas": "Intern",
+      "Mr. Maellard": "Owner",
+      "Death": "Scythe",
+      "Techmo": "Technology",
+      "Gary": "Synth",
+      "Party Pete": "Celebration",
+      "Don": "Brother",
+      "Quips": "Jokes",
+      "Baby Ducks": "Teamwork",
+      "Guardians of Eternal Youth": "Youth",
+      "The Park": "Work",
+      "The House": "Home",
+      "The Coffee Shop": "Caffeine",
+      "The Snack Bar": "Food",
+      "The Arcade": "Games",
+      "Cheezers": "Pizza",
+      "Wing Kingdom": "Chicken",
+      "The Moon": "Space",
+      "Space Tree": "Cosmic",
+      "Dumptown USA": "Sadness",
+      "Death's Realm": "Afterlife",
+      "The Realm of Darthon": "Fantasy",
+      "The Park Dome": "Experiment",
+      "East Pines": "Rival",
+      "The Karaoke Bar": "Singing",
+      "The Intergalactic Mall": "Shopping",
+      "The Power": "Music",
+      "The Golf Cart": "Vehicle",
+      "Rig Juice": "Drink",
+      "Mississippi Queen": "Spicy",
+      "Death Kwon Do Sandwich": "Combat",
+      "Ultimeatum": "Burger",
+      "Apple Fritters": "Pastry",
+      "Eggscellent Hat": "Prize",
+      "Blonde Hair Dye": "Colour",
+      "The Cart": "Wheels",
+      "Solid": "Game",
+      "The Maximum Glove": "Arcade",
+      "Grilled Cheese Deluxe": "Sandwich",
+      "Chicken Wings": "Food",
+      "Coffee": "Energy",
+      "The Hammer": "Opponent",
+      "Summertime Lovin' Tape": "Song",
+      "Benson's Gumballs": "Manager"
     };
 
     const els = Object.fromEntries(Array.from(document.querySelectorAll("[id]")).map(el => [el.id, el]));
@@ -1248,7 +1305,9 @@
           <span class="card-icon">🕵️</span>
           <span class="secret-label">Your role</span>
           <span class="secret-word">Imposter</span>
-          <span class="secret-hint">${state.hints ? `The pack is <strong>${escapeHtml(packName())}</strong>. Listen carefully and blend in.` : "You get no hint this round. Listen carefully and blend in."}</span>`;
+          <span class="secret-hint">${state.hints
+            ? `The pack is <strong>${escapeHtml(packName())}</strong><br>Hint word: <strong>${escapeHtml(IMPOSTER_HINTS[state.secret.word] || packName())}</strong>`
+            : "You get no hint this round. Listen carefully and blend in."}</span>`;
         clickSound(150, .06);
       } else {
         els.roleContent.innerHTML = `
