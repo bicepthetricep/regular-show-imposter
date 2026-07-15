@@ -1,0 +1,1467 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101d34">
+  <title>The Park Imposter</title>
+  <style>
+    :root {
+      --ink: #13213c;
+      --ink-soft: #42506a;
+      --paper: #fffaf0;
+      --paper-deep: #f5ebd4;
+      --line: #13213c;
+      --blue: #66cce8;
+      --blue-deep: #208daf;
+      --pink: #ef7294;
+      --pink-deep: #bd3f69;
+      --yellow: #ffd35a;
+      --green: #73bd70;
+      --red: #dd4d54;
+      --shadow: 0 9px 0 rgba(19, 33, 60, .16);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { min-height: 100%; background: #101d34; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      color: var(--ink);
+      font-family: "Trebuchet MS", "Arial Rounded MT Bold", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at 18% 10%, rgba(255,255,255,.8) 0 5%, transparent 5.3%),
+        radial-gradient(circle at 26% 8%, rgba(255,255,255,.75) 0 7%, transparent 7.3%),
+        linear-gradient(180deg, #6dd2ec 0%, #8adced 48%, #f8ce8b 100%);
+      overflow-x: hidden;
+    }
+
+    button, input { font: inherit; }
+
+    button {
+      color: inherit;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:focus-visible, input:focus-visible {
+      outline: 4px solid rgba(32, 141, 175, .35);
+      outline-offset: 2px;
+    }
+
+    .world {
+      min-height: 100vh;
+      min-height: 100dvh;
+      position: relative;
+      isolation: isolate;
+      padding: max(18px, env(safe-area-inset-top)) 16px max(26px, env(safe-area-inset-bottom));
+    }
+
+    .world::before,
+    .world::after {
+      content: "";
+      position: fixed;
+      z-index: -2;
+      left: -10vw;
+      right: -10vw;
+      bottom: -18vh;
+      height: 52vh;
+      border-radius: 50% 50% 0 0;
+      background: #589c57;
+      border-top: 4px solid rgba(19, 33, 60, .17);
+    }
+
+    .world::after {
+      z-index: -1;
+      left: 43vw;
+      right: -25vw;
+      bottom: -22vh;
+      height: 47vh;
+      background: #79b96c;
+    }
+
+    .app {
+      width: min(100%, 680px);
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 48px;
+      margin-bottom: 14px;
+    }
+
+    .mini-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: white;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      text-shadow: 0 2px 0 rgba(19, 33, 60, .3);
+    }
+
+    .park-badge {
+      width: 39px;
+      height: 39px;
+      border: 3px solid var(--ink);
+      border-radius: 50%;
+      background: var(--yellow);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 3px 0 rgba(19, 33, 60, .2);
+      font-size: 20px;
+    }
+
+    .icon-button {
+      width: 44px;
+      height: 44px;
+      border: 3px solid var(--line);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      background: var(--paper);
+      box-shadow: 0 4px 0 rgba(19, 33, 60, .2);
+      font-size: 20px;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+
+    .icon-button:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(19, 33, 60, .2); }
+
+    .panel {
+      position: relative;
+      border: 4px solid var(--line);
+      border-radius: 28px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .screen {
+      display: none;
+      padding: clamp(22px, 5vw, 38px);
+      animation: screen-in .3s ease both;
+    }
+
+    .screen.active { display: block; }
+
+    @keyframes screen-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero {
+      margin: -38px -38px 28px;
+      padding: 38px 28px 30px;
+      background:
+        linear-gradient(110deg, rgba(255,255,255,.16) 25%, transparent 25% 60%, rgba(255,255,255,.10) 60%),
+        var(--ink);
+      color: white;
+      text-align: center;
+      border-bottom: 4px solid var(--line);
+    }
+
+    .eyebrow {
+      margin: 0 0 7px;
+      font-size: 12px;
+      line-height: 1.2;
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--pink);
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-family: Impact, "Arial Black", sans-serif;
+      font-size: clamp(52px, 14vw, 86px);
+      line-height: .88;
+      letter-spacing: .025em;
+      text-transform: uppercase;
+      -webkit-text-stroke: 2px var(--ink);
+      text-shadow: 5px 5px 0 var(--pink-deep), -2px -2px 0 var(--blue);
+      transform: rotate(-1.5deg);
+    }
+
+    .hero-copy {
+      max-width: 480px;
+      margin: 16px auto 0;
+      color: #dde8f5;
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    h2 {
+      margin: 0;
+      font-family: Impact, "Arial Black", sans-serif;
+      font-size: clamp(34px, 9vw, 52px);
+      line-height: .98;
+      letter-spacing: .025em;
+      text-transform: uppercase;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
+    p { line-height: 1.5; }
+
+    .section { margin-top: 25px; }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 11px;
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 9px;
+      color: var(--ink-soft);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .count-control {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px;
+      border: 3px solid var(--line);
+      border-radius: 18px;
+      background: white;
+    }
+
+    .count-control button {
+      width: 47px;
+      height: 47px;
+      border: 3px solid var(--line);
+      border-radius: 14px;
+      background: var(--blue);
+      font-size: 27px;
+      font-weight: 900;
+      line-height: 1;
+      cursor: pointer;
+      box-shadow: 0 3px 0 var(--line);
+    }
+
+    .count-control button:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--line); }
+
+    .count-value {
+      text-align: center;
+      font-size: 30px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .count-caption {
+      display: block;
+      margin-top: 4px;
+      font-size: 11px;
+      color: var(--ink-soft);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .name-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .name-wrap { position: relative; }
+
+    .name-number {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--pink-deep);
+      font-weight: 900;
+      font-size: 12px;
+    }
+
+    .name-input {
+      width: 100%;
+      min-width: 0;
+      height: 49px;
+      padding: 0 12px 0 37px;
+      border: 3px solid #cfd2d4;
+      border-radius: 14px;
+      background: white;
+      color: var(--ink);
+      font-weight: 800;
+      transition: border-color .15s ease;
+    }
+
+    .name-input:focus { border-color: var(--blue-deep); outline: none; }
+
+    .chips {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .chip {
+      min-height: 64px;
+      padding: 11px 13px;
+      border: 3px solid #cfd2d4;
+      border-radius: 15px;
+      background: white;
+      text-align: left;
+      cursor: pointer;
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    }
+
+    .chip strong { display: block; font-size: 15px; }
+    .chip small { display: block; margin-top: 3px; color: var(--ink-soft); font-size: 11px; }
+    .chip.selected { border-color: var(--line); background: #dcf5fb; box-shadow: inset 0 -4px 0 rgba(32, 141, 175, .16); }
+    .chip.selected::after { content: " ✓"; color: var(--pink-deep); font-weight: 900; }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .setting-card {
+      min-width: 0;
+      padding: 14px;
+      border: 3px solid #cfd2d4;
+      border-radius: 16px;
+      background: white;
+    }
+
+    .setting-card .label { margin-bottom: 6px; }
+
+    select {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: var(--ink);
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .switch {
+      width: 50px;
+      height: 29px;
+      flex: 0 0 auto;
+      border: 3px solid var(--line);
+      border-radius: 99px;
+      background: #d8d8d3;
+      padding: 2px;
+      cursor: pointer;
+      transition: background .2s ease;
+    }
+
+    .switch::after {
+      content: "";
+      display: block;
+      width: 19px;
+      height: 19px;
+      border-radius: 50%;
+      background: white;
+      border: 2px solid var(--line);
+      transition: transform .2s ease;
+    }
+
+    .switch[aria-checked="true"] { background: var(--green); }
+    .switch[aria-checked="true"]::after { transform: translateX(19px); }
+
+    .primary,
+    .secondary,
+    .danger-button {
+      width: 100%;
+      min-height: 58px;
+      border: 3px solid var(--line);
+      border-radius: 17px;
+      padding: 12px 18px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      cursor: pointer;
+      box-shadow: 0 5px 0 var(--line);
+      transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+    }
+
+    .primary { background: var(--pink); }
+    .secondary { background: var(--blue); }
+    .danger-button { background: var(--yellow); }
+    .primary:hover, .secondary:hover, .danger-button:hover { filter: brightness(1.04); }
+    .primary:active, .secondary:active, .danger-button:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--line); }
+    .primary:disabled, .secondary:disabled { opacity: .45; cursor: not-allowed; filter: grayscale(.5); }
+
+    .actions { display: grid; gap: 11px; margin-top: 27px; }
+    .actions.two { grid-template-columns: 1fr 1fr; }
+
+    .how-it-works {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+      margin-top: 25px;
+    }
+
+    .how-step {
+      padding: 13px 10px;
+      border: 2px dashed #b9b7af;
+      border-radius: 14px;
+      color: var(--ink-soft);
+      font-size: 11px;
+      line-height: 1.35;
+      text-align: center;
+    }
+
+    .how-step b {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--pink-deep);
+      font-size: 18px;
+    }
+
+    .progress {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin: 0 0 25px;
+    }
+
+    .progress-dot {
+      width: 9px;
+      height: 9px;
+      border: 2px solid var(--ink);
+      border-radius: 50%;
+      background: transparent;
+    }
+
+    .progress-dot.done { background: var(--green); }
+    .progress-dot.current { width: 24px; border-radius: 99px; background: var(--yellow); }
+
+    .handoff {
+      text-align: center;
+      padding-top: 8px;
+    }
+
+    .player-avatar {
+      width: 96px;
+      height: 96px;
+      display: grid;
+      place-items: center;
+      margin: 8px auto 19px;
+      border: 4px solid var(--line);
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 7px 0 rgba(19, 33, 60, .18);
+      font-family: Impact, "Arial Black", sans-serif;
+      font-size: 42px;
+      color: var(--ink);
+    }
+
+    .handoff-copy {
+      max-width: 420px;
+      margin: 12px auto 22px;
+      color: var(--ink-soft);
+    }
+
+    .privacy-card {
+      min-height: 300px;
+      display: grid;
+      place-items: center;
+      margin-top: 24px;
+      padding: 24px;
+      border: 4px solid var(--line);
+      border-radius: 24px;
+      background:
+        repeating-linear-gradient(-45deg, rgba(255,255,255,.06) 0 12px, transparent 12px 24px),
+        var(--ink);
+      color: white;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 8px 0 rgba(19, 33, 60, .18);
+      user-select: none;
+      -webkit-user-select: none;
+      transition: transform .16s ease, background .2s ease;
+    }
+
+    .privacy-card:active { transform: scale(.99); }
+
+    .privacy-card.revealed.crew {
+      background:
+        radial-gradient(circle at 15% 15%, rgba(255,255,255,.25) 0 3%, transparent 3.5%),
+        var(--blue-deep);
+    }
+
+    .privacy-card.revealed.imposter {
+      background:
+        repeating-linear-gradient(45deg, rgba(0,0,0,.07) 0 10px, transparent 10px 20px),
+        var(--red);
+    }
+
+    .card-icon { display: block; margin-bottom: 12px; font-size: 45px; }
+
+    .secret-label {
+      display: block;
+      margin-bottom: 8px;
+      color: rgba(255,255,255,.72);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .secret-word {
+      display: block;
+      font-family: Impact, "Arial Black", sans-serif;
+      font-size: clamp(38px, 10vw, 60px);
+      line-height: 1;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      overflow-wrap: anywhere;
+    }
+
+    .secret-hint {
+      display: block;
+      max-width: 340px;
+      margin: 12px auto 0;
+      font-size: 14px;
+      line-height: 1.4;
+      color: rgba(255,255,255,.8);
+    }
+
+    .ready-box {
+      padding: 20px;
+      border: 3px solid var(--line);
+      border-radius: 18px;
+      background: #fff4c9;
+      text-align: center;
+      margin: 24px 0;
+    }
+
+    .starter-name {
+      display: block;
+      margin-top: 5px;
+      font-family: Impact, "Arial Black", sans-serif;
+      font-size: 38px;
+      line-height: 1;
+      text-transform: uppercase;
+      color: var(--pink-deep);
+    }
+
+    .timer-wrap {
+      display: grid;
+      place-items: center;
+      padding: 20px 0 5px;
+    }
+
+    .timer-ring {
+      --progress: 100%;
+      width: min(68vw, 260px);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: conic-gradient(var(--pink) var(--progress), #e5dfd2 0);
+      border: 4px solid var(--line);
+      box-shadow: 0 8px 0 rgba(19, 33, 60, .18);
+      position: relative;
+    }
+
+    .timer-ring::after {
+      content: "";
+      position: absolute;
+      inset: 17px;
+      border: 3px solid var(--line);
+      border-radius: 50%;
+      background: var(--paper);
+    }
+
+    .timer-time {
+      position: relative;
+      z-index: 1;
+      font-family: Impact, "Arial Black", sans-serif;
+      font-size: 58px;
+      letter-spacing: .03em;
+    }
+
+    .timer-status {
+      position: relative;
+      z-index: 1;
+      margin-top: -54px;
+      color: var(--ink-soft);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .timer-tools {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 9px;
+      margin-top: 23px;
+    }
+
+    .tool-button {
+      min-height: 48px;
+      border: 3px solid var(--line);
+      border-radius: 14px;
+      background: white;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .clue-rules {
+      margin: 24px 0 0;
+      padding: 16px 18px;
+      border-left: 5px solid var(--blue-deep);
+      border-radius: 0 13px 13px 0;
+      background: #e6f5f6;
+      color: var(--ink-soft);
+      font-size: 13px;
+    }
+
+    .vote-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .vote-card {
+      min-height: 76px;
+      padding: 12px;
+      border: 3px solid #cfd2d4;
+      border-radius: 16px;
+      background: white;
+      cursor: pointer;
+      text-align: left;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .vote-card span {
+      display: inline-grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      margin-right: 7px;
+      border: 2px solid var(--line);
+      border-radius: 50%;
+      background: var(--blue);
+    }
+
+    .vote-card.selected { border-color: var(--line); background: #ffe5eb; box-shadow: inset 0 -5px 0 rgba(189, 63, 105, .13); }
+    .vote-card.selected span { background: var(--pink); }
+
+    .selection-note {
+      margin: 15px 0 0;
+      color: var(--ink-soft);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .result-hero { text-align: center; padding: 7px 0 12px; }
+
+    .result-icon {
+      width: 105px;
+      height: 105px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 19px;
+      border: 4px solid var(--line);
+      border-radius: 50%;
+      background: var(--yellow);
+      box-shadow: 0 7px 0 rgba(19, 33, 60, .16);
+      font-size: 50px;
+    }
+
+    .result-summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 25px;
+    }
+
+    .summary-card {
+      padding: 15px;
+      border: 3px solid var(--line);
+      border-radius: 16px;
+      background: white;
+      text-align: center;
+    }
+
+    .summary-card b {
+      display: block;
+      margin-top: 6px;
+      font-size: 18px;
+      overflow-wrap: anywhere;
+    }
+
+    .round-score {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 15px;
+      padding: 13px 16px;
+      border: 2px dashed #a9a79f;
+      border-radius: 14px;
+      color: var(--ink-soft);
+      font-size: 13px;
+    }
+
+    .round-score strong { color: var(--ink); }
+
+    .toast {
+      position: fixed;
+      z-index: 20;
+      left: 50%;
+      bottom: max(22px, env(safe-area-inset-bottom));
+      transform: translate(-50%, 20px);
+      width: min(calc(100% - 32px), 500px);
+      padding: 13px 17px;
+      border: 3px solid var(--line);
+      border-radius: 14px;
+      background: var(--ink);
+      color: white;
+      text-align: center;
+      font-weight: 800;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    .modal-backdrop {
+      position: fixed;
+      z-index: 30;
+      inset: 0;
+      display: none;
+      place-items: center;
+      padding: 20px;
+      background: rgba(8, 16, 31, .74);
+      backdrop-filter: blur(3px);
+    }
+
+    .modal-backdrop.open { display: grid; }
+
+    .modal {
+      width: min(100%, 480px);
+      max-height: 86vh;
+      overflow-y: auto;
+      padding: 25px;
+      border: 4px solid var(--line);
+      border-radius: 24px;
+      background: var(--paper);
+      box-shadow: 0 10px 0 rgba(0,0,0,.24);
+    }
+
+    .modal ul { padding-left: 21px; color: var(--ink-soft); line-height: 1.55; }
+
+    .disclaimer {
+      margin: 18px 0 0;
+      color: rgba(255,255,255,.76);
+      font-size: 10px;
+      line-height: 1.35;
+      text-align: center;
+    }
+
+    .shake { animation: shake .35s ease; }
+    @keyframes shake { 25% { transform: translateX(-7px); } 50% { transform: translateX(7px); } 75% { transform: translateX(-3px); } }
+
+    @media (max-width: 540px) {
+      .world { padding-left: 10px; padding-right: 10px; }
+      .screen { padding: 22px 18px; }
+      .hero { margin: -22px -18px 24px; padding: 29px 16px 27px; }
+      .topbar { padding: 0 4px; }
+      .name-grid, .settings-grid { grid-template-columns: 1fr; }
+      .actions.two { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="world">
+    <div class="app">
+      <header class="topbar">
+        <div class="mini-brand"><span class="park-badge">★</span><span>The Park<br>Night Shift</span></div>
+        <button class="icon-button" id="helpButton" aria-label="How to play">?</button>
+      </header>
+
+      <section class="panel" aria-live="polite">
+        <div class="screen active" id="setupScreen">
+          <div class="hero">
+            <p class="eyebrow">A very suspicious party game</p>
+            <h1>Imposter</h1>
+            <p class="hero-copy">Everyone knows the same Park secret—except the imposter. Give clues, act normal, and find them before they fool the group.</p>
+          </div>
+
+          <div class="section">
+            <span class="label">How many are playing?</span>
+            <div class="count-control">
+              <button type="button" id="removePlayer" aria-label="Remove player">−</button>
+              <div><span class="count-value" id="playerCount">4</span><span class="count-caption">players</span></div>
+              <button type="button" id="addPlayer" aria-label="Add player">+</button>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-head"><span class="label" style="margin:0">Who's on shift?</span><small id="rosterNote">Names are saved on this device</small></div>
+            <div class="name-grid" id="nameGrid"></div>
+          </div>
+
+          <div class="section">
+            <span class="label">Choose a secret pack</span>
+            <div class="chips" id="packChips">
+              <button class="chip selected" type="button" data-pack="characters"><strong>Characters</strong><small>Park crew, friends &amp; rivals</small></button>
+              <button class="chip" type="button" data-pack="places"><strong>Places</strong><small>From the Park and beyond</small></button>
+              <button class="chip" type="button" data-pack="things"><strong>Objects &amp; Food</strong><small>Iconic stuff and snacks</small></button>
+              <button class="chip" type="button" data-pack="mixed"><strong>Anything Goes</strong><small>All packs shuffled together</small></button>
+            </div>
+          </div>
+
+          <div class="section settings-grid">
+            <label class="setting-card">
+              <span class="label">Imposters</span>
+              <select id="imposterCount" aria-label="Number of imposters">
+                <option value="1">1 imposter</option>
+                <option value="2">2 imposters</option>
+              </select>
+            </label>
+            <label class="setting-card">
+              <span class="label">Talk time</span>
+              <select id="timerLength" aria-label="Discussion time">
+                <option value="120">2 minutes</option>
+                <option value="180" selected>3 minutes</option>
+                <option value="300">5 minutes</option>
+                <option value="420">7 minutes</option>
+              </select>
+            </label>
+            <div class="setting-card toggle-row">
+              <div><span class="label">Imposter hint</span><small>Show the pack only</small></div>
+              <button class="switch" id="hintToggle" type="button" role="switch" aria-checked="true" aria-label="Toggle imposter hint"></button>
+            </div>
+            <div class="setting-card toggle-row">
+              <div><span class="label">Sound</span><small>Clicks and timer bell</small></div>
+              <button class="switch" id="soundToggle" type="button" role="switch" aria-checked="true" aria-label="Toggle sounds"></button>
+            </div>
+          </div>
+
+          <div class="actions"><button class="primary" id="startGame" type="button">Clock in &amp; start</button></div>
+
+          <div class="how-it-works" aria-label="How to play summary">
+            <div class="how-step"><b>1</b>Pass the phone and reveal privately</div>
+            <div class="how-step"><b>2</b>Give one clue each without saying it</div>
+            <div class="how-step"><b>3</b>Vote out whoever seems suspicious</div>
+          </div>
+        </div>
+
+        <div class="screen" id="revealScreen">
+          <div class="progress" id="revealProgress" aria-label="Reveal progress"></div>
+          <div class="handoff">
+            <p class="eyebrow">Pass the device to</p>
+            <div class="player-avatar" id="revealAvatar">P1</div>
+            <h2 id="revealName">Player 1</h2>
+            <p class="handoff-copy" id="handoffCopy">Make sure nobody else can see your screen, then tap the card.</p>
+          </div>
+
+          <button class="privacy-card" id="privacyCard" type="button" aria-label="Reveal your role">
+            <span id="hiddenContent"><span class="card-icon">👁️</span><strong>Tap to reveal your role</strong><span class="secret-hint">Keep the screen close. No peeking.</span></span>
+            <span id="roleContent" hidden></span>
+          </button>
+          <div class="actions"><button class="secondary" id="passButton" type="button" hidden>Hide &amp; pass it on</button></div>
+        </div>
+
+        <div class="screen" id="readyScreen">
+          <div class="result-hero">
+            <div class="result-icon">🤐</div>
+            <p class="eyebrow">Everybody has checked</p>
+            <h2>Keep it secret!</h2>
+            <p>Go around the group giving one clue each. The imposter has to improvise without knowing the answer.</p>
+          </div>
+          <div class="ready-box"><span class="label">First clue goes to</span><span class="starter-name" id="starterName">Player 1</span></div>
+          <div class="actions"><button class="primary" id="beginDiscussion" type="button">Start discussion</button></div>
+        </div>
+
+        <div class="screen" id="discussionScreen">
+          <div class="result-hero">
+            <p class="eyebrow">Act normal</p>
+            <h2>Discussion time</h2>
+          </div>
+          <div class="timer-wrap">
+            <div class="timer-ring" id="timerRing">
+              <span class="timer-time" id="timerTime">3:00</span>
+              <span class="timer-status" id="timerStatus">Running</span>
+            </div>
+          </div>
+          <div class="timer-tools">
+            <button class="tool-button" id="minusTime" type="button">− 30 sec</button>
+            <button class="tool-button" id="pauseTimer" type="button">Pause</button>
+            <button class="tool-button" id="plusTime" type="button">+ 30 sec</button>
+          </div>
+          <p class="clue-rules"><strong>Park rule:</strong> clues should prove you know the secret, but not make it obvious enough for the imposter to guess.</p>
+          <div class="actions"><button class="danger-button" id="goToVote" type="button">End discussion &amp; vote</button></div>
+        </div>
+
+        <div class="screen" id="voteScreen">
+          <div class="result-hero">
+            <p class="eyebrow">Final decision</p>
+            <h2>Who's the imposter?</h2>
+            <p id="voteInstruction">Agree as a group, then choose one player to throw under the bus.</p>
+          </div>
+          <div class="vote-grid" id="voteGrid"></div>
+          <p class="selection-note" id="selectionNote">Choose 1 player</p>
+          <div class="actions"><button class="primary" id="lockVote" type="button" disabled>Lock in the vote</button></div>
+        </div>
+
+        <div class="screen" id="resultScreen">
+          <div class="result-hero">
+            <div class="result-icon" id="resultIcon">🎉</div>
+            <p class="eyebrow" id="resultEyebrow">Case closed</p>
+            <h2 id="resultTitle">Crew wins!</h2>
+            <p id="resultCopy">You found the imposter.</p>
+          </div>
+          <div class="result-summary">
+            <div class="summary-card"><span class="label">The secret was</span><b id="resultSecret">Mordecai</b></div>
+            <div class="summary-card"><span class="label" id="imposterResultLabel">The imposter was</span><b id="resultImposters">Player 2</b></div>
+          </div>
+          <div class="round-score"><span>Session score</span><strong id="scoreText">Crew 1 · Imposters 0</strong></div>
+          <div class="actions two">
+            <button class="secondary" id="playAgain" type="button">Another round</button>
+            <button class="danger-button" id="backToSetup" type="button">Change setup</button>
+          </div>
+        </div>
+      </section>
+
+      <p class="disclaimer">Unofficial fan-made party game. Regular Show and its characters belong to their respective rights holders.</p>
+    </div>
+  </main>
+
+  <div class="modal-backdrop" id="helpModal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <div class="modal">
+      <p class="eyebrow">Quick rules</p>
+      <h2 id="helpTitle">How to play</h2>
+      <ul>
+        <li>Enter everybody's names and choose a themed secret pack.</li>
+        <li>Pass the device around. Most players see the same secret; the imposter does not.</li>
+        <li>Starting with the chosen player, each person gives one related clue.</li>
+        <li>Discuss who sounded suspicious, then vote as a group.</li>
+        <li>If every imposter is selected, the crew wins. Otherwise, the imposter wins.</li>
+      </ul>
+      <div class="actions"><button class="secondary" id="closeHelp" type="button">Got it</button></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script>
+    const PACKS = {
+      characters: {
+        name: "Characters",
+        items: [
+          { word: "Mordecai", hint: "A tall blue park employee" },
+          { word: "Rigby", hint: "A chaotic raccoon" },
+          { word: "Benson", hint: "The Park's short-tempered manager" },
+          { word: "Pops", hint: "A cheerful gentleman with a big head" },
+          { word: "Skips", hint: "The wise, immortal groundskeeper" },
+          { word: "Muscle Man", hint: "You know who else is in this pack?" },
+          { word: "High Five Ghost", hint: "A floating best friend" },
+          { word: "Eileen", hint: "Smart, calm and kind" },
+          { word: "Margaret", hint: "A red robin from the coffee shop" },
+          { word: "CJ", hint: "A cloud who controls the weather" },
+          { word: "Thomas", hint: "The Park's mysterious intern" },
+          { word: "Mr. Maellard", hint: "The wealthy owner of the Park" },
+          { word: "Death", hint: "A collector with an arm-wrestling streak" },
+          { word: "Techmo", hint: "A very unusual technician" },
+          { word: "Gary", hint: "A cosmic synth player" },
+          { word: "Party Pete", hint: "He knows how to fill a room" },
+          { word: "Don", hint: "Rigby's more successful brother" },
+          { word: "Quips", hint: "A comedian who cannot stop joking" },
+          { word: "Baby Ducks", hint: "Tiny heroes who combine" },
+          { word: "Guardians of Eternal Youth", hint: "They protect Skips' secret" }
+        ]
+      },
+      places: {
+        name: "Places",
+        items: [
+          { word: "The Park", hint: "Where the crew definitely works hard" },
+          { word: "The House", hint: "The crew's shared home at the Park" },
+          { word: "The Coffee Shop", hint: "Margaret and Eileen's workplace" },
+          { word: "The Snack Bar", hint: "Food, drinks and questionable shifts" },
+          { word: "The Arcade", hint: "Games can get dangerously serious here" },
+          { word: "Cheezers", hint: "A very familiar pizza place" },
+          { word: "Wing Kingdom", hint: "The crew's favourite wing spot" },
+          { word: "The Moon", hint: "Somehow, work has led here" },
+          { word: "Space Tree", hint: "A cosmic version of home" },
+          { word: "Dumptown USA", hint: "A gloomy place to get over heartbreak" },
+          { word: "Death's Realm", hint: "Not the safest day-trip" },
+          { word: "The Realm of Darthon", hint: "A live-action fantasy world" },
+          { word: "The Park Dome", hint: "A dome with a secret purpose" },
+          { word: "East Pines", hint: "The Park's intense rival" },
+          { word: "The Karaoke Bar", hint: "A place where recordings cause trouble" },
+          { word: "The Intergalactic Mall", hint: "Shopping, but in space" }
+        ]
+      },
+      things: {
+        name: "Objects & Food",
+        items: [
+          { word: "The Power", hint: "A keyboard that makes lyrics real" },
+          { word: "The Golf Cart", hint: "The crew's preferred transport" },
+          { word: "Rig Juice", hint: "A suspicious homemade drink" },
+          { word: "Mississippi Queen", hint: "A dangerously spicy challenge" },
+          { word: "Death Kwon Do Sandwich", hint: "A meal with combat potential" },
+          { word: "Ultimeatum", hint: "The ultimate cheeseburger" },
+          { word: "Apple Fritters", hint: "A sweet shortcut to finishing chores" },
+          { word: "Eggscellent Hat", hint: "A prize worth a giant omelette" },
+          { word: "Blonde Hair Dye", hint: "A shortcut to a new look" },
+          { word: "The Cart", hint: "It has survived far too much" },
+          { word: "Solid", hint: "A VHS game with very real consequences" },
+          { word: "The Maximum Glove", hint: "An arcade prize with huge power" },
+          { word: "Grilled Cheese Deluxe", hint: "A sandwich tied to an obvious lie" },
+          { word: "Chicken Wings", hint: "The crew's celebration food" },
+          { word: "Coffee", hint: "Sometimes it grants extreme energy" },
+          { word: "The Hammer", hint: "A famous arcade opponent" },
+          { word: "Summertime Lovin' Tape", hint: "A song that never leaves your head" },
+          { word: "Benson's Gumballs", hint: "Part of the manager, not a snack" }
+        ]
+      }
+    };
+
+    const els = Object.fromEntries(Array.from(document.querySelectorAll("[id]")).map(el => [el.id, el]));
+    const screens = ["setupScreen", "revealScreen", "readyScreen", "discussionScreen", "voteScreen", "resultScreen"];
+
+    const state = {
+      playerCount: 4,
+      players: [],
+      pack: "characters",
+      imposterCount: 1,
+      timerLength: 180,
+      hints: true,
+      sound: true,
+      roles: [],
+      secret: null,
+      revealIndex: 0,
+      cardRevealed: false,
+      selectedVotes: new Set(),
+      timerRemaining: 180,
+      timerInitial: 180,
+      timerRunning: false,
+      timerId: null,
+      lastTick: null,
+      lastSecret: null,
+      score: { crew: 0, imposters: 0 }
+    };
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>'"]/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[char]);
+    }
+
+    function savedSettings() {
+      try { return JSON.parse(localStorage.getItem("parkImposterSettings") || "{}"); }
+      catch { return {}; }
+    }
+
+    function loadSettings() {
+      const saved = savedSettings();
+      state.playerCount = Math.min(12, Math.max(3, Number(saved.playerCount) || 4));
+      state.players = Array.from({ length: state.playerCount }, (_, i) => saved.players?.[i] || `Player ${i + 1}`);
+      state.pack = PACKS[saved.pack] || saved.pack === "mixed" ? saved.pack : "characters";
+      if (!PACKS[state.pack] && state.pack !== "mixed") state.pack = "characters";
+      state.imposterCount = Number(saved.imposterCount) === 2 ? 2 : 1;
+      state.timerLength = [120, 180, 300, 420].includes(Number(saved.timerLength)) ? Number(saved.timerLength) : 180;
+      state.hints = saved.hints !== false;
+      state.sound = saved.sound !== false;
+    }
+
+    function persistSettings() {
+      localStorage.setItem("parkImposterSettings", JSON.stringify({
+        playerCount: state.playerCount,
+        players: readPlayerNames(),
+        pack: state.pack,
+        imposterCount: state.imposterCount,
+        timerLength: state.timerLength,
+        hints: state.hints,
+        sound: state.sound
+      }));
+    }
+
+    function renderSetup() {
+      els.playerCount.textContent = state.playerCount;
+      els.nameGrid.innerHTML = Array.from({ length: state.playerCount }, (_, i) => `
+        <label class="name-wrap">
+          <span class="name-number">${i + 1}</span>
+          <input class="name-input" maxlength="18" autocomplete="off" value="${escapeHtml(state.players[i] || `Player ${i + 1}`)}" aria-label="Player ${i + 1} name">
+        </label>`).join("");
+      els.removePlayer.disabled = state.playerCount <= 3;
+      els.addPlayer.disabled = state.playerCount >= 12;
+      Array.from(els.packChips.children).forEach(chip => chip.classList.toggle("selected", chip.dataset.pack === state.pack));
+      els.imposterCount.value = String(state.imposterCount);
+      els.timerLength.value = String(state.timerLength);
+      els.hintToggle.setAttribute("aria-checked", String(state.hints));
+      els.soundToggle.setAttribute("aria-checked", String(state.sound));
+      updateImposterAvailability();
+    }
+
+    function readPlayerNames() {
+      return Array.from(document.querySelectorAll(".name-input")).map((input, i) => input.value.trim() || `Player ${i + 1}`);
+    }
+
+    function changePlayerCount(delta) {
+      state.players = readPlayerNames();
+      state.playerCount = Math.min(12, Math.max(3, state.playerCount + delta));
+      while (state.players.length < state.playerCount) state.players.push(`Player ${state.players.length + 1}`);
+      state.players.length = state.playerCount;
+      renderSetup();
+      clickSound(350, .025);
+    }
+
+    function updateImposterAvailability() {
+      const two = els.imposterCount.querySelector('option[value="2"]');
+      two.disabled = state.playerCount < 6;
+      two.textContent = state.playerCount < 6 ? "2 imposters (6+ players)" : "2 imposters";
+      if (state.playerCount < 6 && state.imposterCount === 2) {
+        state.imposterCount = 1;
+        els.imposterCount.value = "1";
+      }
+    }
+
+    function showScreen(id) {
+      screens.forEach(screenId => els[screenId].classList.toggle("active", screenId === id));
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function pickRandom(array) {
+      return array[Math.floor(Math.random() * array.length)];
+    }
+
+    function shuffle(array) {
+      const copy = [...array];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function activePackItems() {
+      if (state.pack === "mixed") return Object.values(PACKS).flatMap(pack => pack.items);
+      return PACKS[state.pack].items;
+    }
+
+    function packName() {
+      return state.pack === "mixed" ? "Anything Goes" : PACKS[state.pack].name;
+    }
+
+    function validateNames(names) {
+      const normalized = names.map(name => name.toLocaleLowerCase());
+      if (new Set(normalized).size !== normalized.length) {
+        toast("Give every player a different name so voting is clear.");
+        els.nameGrid.classList.remove("shake");
+        void els.nameGrid.offsetWidth;
+        els.nameGrid.classList.add("shake");
+        return false;
+      }
+      return true;
+    }
+
+    function startRound() {
+      state.players = readPlayerNames();
+      if (!validateNames(state.players)) return;
+      state.imposterCount = Number(els.imposterCount.value);
+      state.timerLength = Number(els.timerLength.value);
+      persistSettings();
+
+      let options = activePackItems().filter(item => item.word !== state.lastSecret);
+      if (!options.length) options = activePackItems();
+      state.secret = pickRandom(options);
+      state.lastSecret = state.secret.word;
+
+      const imposterIndexes = shuffle(state.players.map((_, i) => i)).slice(0, state.imposterCount);
+      state.roles = state.players.map((_, i) => ({ imposter: imposterIndexes.includes(i) }));
+      state.revealIndex = 0;
+      state.cardRevealed = false;
+      state.selectedVotes.clear();
+      renderReveal();
+      showScreen("revealScreen");
+      clickSound(520, .04);
+    }
+
+    function initials(name) {
+      return name.split(/\s+/).slice(0, 2).map(part => part[0]).join("").toUpperCase();
+    }
+
+    function renderReveal() {
+      const index = state.revealIndex;
+      const player = state.players[index];
+      els.revealProgress.innerHTML = state.players.map((_, i) => `<span class="progress-dot ${i < index ? "done" : i === index ? "current" : ""}"></span>`).join("");
+      els.revealAvatar.textContent = initials(player);
+      els.revealAvatar.style.background = ["#66cce8", "#ef7294", "#ffd35a", "#73bd70"][index % 4];
+      els.revealName.textContent = player;
+      els.handoffCopy.textContent = "Make sure nobody else can see your screen, then tap the card.";
+      els.hiddenContent.hidden = false;
+      els.roleContent.hidden = true;
+      els.passButton.hidden = true;
+      els.passButton.textContent = index === state.players.length - 1 ? "Hide & finish reveals" : "Hide & pass it on";
+      els.privacyCard.className = "privacy-card";
+      els.privacyCard.setAttribute("aria-label", "Reveal your role");
+      state.cardRevealed = false;
+    }
+
+    function revealRole() {
+      if (state.cardRevealed) return;
+      state.cardRevealed = true;
+      const isImposter = state.roles[state.revealIndex].imposter;
+      els.hiddenContent.hidden = true;
+      els.roleContent.hidden = false;
+      els.privacyCard.classList.add("revealed", isImposter ? "imposter" : "crew");
+      els.privacyCard.setAttribute("aria-label", isImposter ? "You are the imposter" : `Your secret is ${state.secret.word}`);
+      if (isImposter) {
+        els.roleContent.innerHTML = `
+          <span class="card-icon">🕵️</span>
+          <span class="secret-label">Your role</span>
+          <span class="secret-word">Imposter</span>
+          <span class="secret-hint">${state.hints ? `The pack is <strong>${escapeHtml(packName())}</strong>. Listen carefully and blend in.` : "You get no hint this round. Listen carefully and blend in."}</span>`;
+        clickSound(150, .06);
+      } else {
+        els.roleContent.innerHTML = `
+          <span class="card-icon">🔒</span>
+          <span class="secret-label">The secret is</span>
+          <span class="secret-word">${escapeHtml(state.secret.word)}</span>
+          <span class="secret-hint">${escapeHtml(state.secret.hint)}</span>`;
+        clickSound(650, .04);
+      }
+      els.passButton.hidden = false;
+    }
+
+    function passDevice() {
+      if (!state.cardRevealed) return;
+      if (state.revealIndex < state.players.length - 1) {
+        state.revealIndex += 1;
+        renderReveal();
+      } else {
+        const safeStarters = state.players.filter((_, i) => !state.roles[i].imposter);
+        els.starterName.textContent = pickRandom(safeStarters.length ? safeStarters : state.players);
+        showScreen("readyScreen");
+      }
+      clickSound(440, .03);
+    }
+
+    function startDiscussion() {
+      state.timerInitial = state.timerLength;
+      state.timerRemaining = state.timerLength;
+      state.timerRunning = true;
+      state.lastTick = Date.now();
+      updateTimerDisplay();
+      showScreen("discussionScreen");
+      clearInterval(state.timerId);
+      state.timerId = setInterval(timerTick, 250);
+      clickSound(520, .04);
+    }
+
+    function timerTick() {
+      if (!state.timerRunning) return;
+      const now = Date.now();
+      const elapsed = (now - state.lastTick) / 1000;
+      state.lastTick = now;
+      state.timerRemaining = Math.max(0, state.timerRemaining - elapsed);
+      updateTimerDisplay();
+      if (state.timerRemaining <= 0) {
+        state.timerRunning = false;
+        els.timerStatus.textContent = "Time's up";
+        els.pauseTimer.textContent = "Restart";
+        bellSound();
+        if (navigator.vibrate) navigator.vibrate([180, 100, 180]);
+      }
+    }
+
+    function formatTime(seconds) {
+      const whole = Math.ceil(seconds);
+      return `${Math.floor(whole / 60)}:${String(whole % 60).padStart(2, "0")}`;
+    }
+
+    function updateTimerDisplay() {
+      els.timerTime.textContent = formatTime(state.timerRemaining);
+      const progress = state.timerInitial ? Math.min(100, (state.timerRemaining / state.timerInitial) * 100) : 0;
+      els.timerRing.style.setProperty("--progress", `${progress}%`);
+      els.timerStatus.textContent = state.timerRunning ? "Running" : state.timerRemaining <= 0 ? "Time's up" : "Paused";
+      els.pauseTimer.textContent = state.timerRemaining <= 0 ? "Restart" : state.timerRunning ? "Pause" : "Resume";
+    }
+
+    function adjustTime(delta) {
+      state.timerRemaining = Math.max(0, Math.min(900, state.timerRemaining + delta));
+      state.timerInitial = Math.max(state.timerInitial, state.timerRemaining);
+      if (state.timerRemaining > 0 && !state.timerRunning) els.timerStatus.textContent = "Paused";
+      updateTimerDisplay();
+      clickSound(delta > 0 ? 520 : 300, .025);
+    }
+
+    function toggleTimer() {
+      if (state.timerRemaining <= 0) {
+        state.timerRemaining = state.timerLength;
+        state.timerInitial = state.timerLength;
+        state.timerRunning = true;
+      } else {
+        state.timerRunning = !state.timerRunning;
+      }
+      state.lastTick = Date.now();
+      updateTimerDisplay();
+      clickSound(state.timerRunning ? 520 : 300, .03);
+    }
+
+    function openVote() {
+      state.timerRunning = false;
+      clearInterval(state.timerId);
+      state.selectedVotes.clear();
+      els.voteInstruction.textContent = state.imposterCount === 1
+        ? "Agree as a group, then choose one player to throw under the bus."
+        : "There are two imposters. Agree as a group and choose both suspects.";
+      els.selectionNote.textContent = `Choose ${state.imposterCount} player${state.imposterCount > 1 ? "s" : ""}`;
+      els.voteGrid.innerHTML = state.players.map((name, i) => `<button class="vote-card" type="button" data-index="${i}"><span>${escapeHtml(initials(name))}</span>${escapeHtml(name)}</button>`).join("");
+      els.lockVote.disabled = true;
+      showScreen("voteScreen");
+      clickSound(350, .035);
+    }
+
+    function toggleVote(index, button) {
+      if (state.selectedVotes.has(index)) {
+        state.selectedVotes.delete(index);
+        button.classList.remove("selected");
+      } else {
+        if (state.selectedVotes.size >= state.imposterCount) {
+          toast(`You can only choose ${state.imposterCount}. Deselect someone first.`);
+          return;
+        }
+        state.selectedVotes.add(index);
+        button.classList.add("selected");
+      }
+      const remaining = state.imposterCount - state.selectedVotes.size;
+      els.selectionNote.textContent = remaining ? `Choose ${remaining} more` : "Ready to lock it in";
+      els.lockVote.disabled = state.selectedVotes.size !== state.imposterCount;
+      clickSound(460, .025);
+    }
+
+    function revealResult() {
+      const actual = state.roles.map((role, i) => role.imposter ? i : -1).filter(i => i >= 0);
+      const crewWon = actual.every(i => state.selectedVotes.has(i)) && [...state.selectedVotes].every(i => actual.includes(i));
+      if (crewWon) state.score.crew += 1;
+      else state.score.imposters += 1;
+
+      els.resultIcon.textContent = crewWon ? "🎉" : "😈";
+      els.resultEyebrow.textContent = crewWon ? "Case closed" : "You got played";
+      els.resultTitle.textContent = crewWon ? "Crew wins!" : "Imposter wins!";
+      els.resultCopy.textContent = crewWon
+        ? `Nice work. ${state.imposterCount === 1 ? "The imposter is" : "Both imposters are"} off the clock.`
+        : "The wrong person was accused—or an imposter slipped through.";
+      els.resultSecret.textContent = state.secret.word;
+      els.imposterResultLabel.textContent = state.imposterCount > 1 ? "The imposters were" : "The imposter was";
+      els.resultImposters.textContent = actual.map(i => state.players[i]).join(" & ");
+      els.scoreText.textContent = `Crew ${state.score.crew} · Imposters ${state.score.imposters}`;
+      showScreen("resultScreen");
+      crewWon ? victorySound() : clickSound(130, .1);
+    }
+
+    function toggleSwitch(element, key) {
+      state[key] = !state[key];
+      element.setAttribute("aria-checked", String(state[key]));
+      persistSettings();
+      clickSound(state[key] ? 520 : 260, .025);
+    }
+
+    let audioContext;
+    function tone(frequency, duration, volume = .04, delay = 0) {
+      if (!state.sound) return;
+      try {
+        audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        const start = audioContext.currentTime + delay;
+        oscillator.type = "square";
+        oscillator.frequency.setValueAtTime(frequency, start);
+        gain.gain.setValueAtTime(volume, start);
+        gain.gain.exponentialRampToValueAtTime(.001, start + duration);
+        oscillator.connect(gain).connect(audioContext.destination);
+        oscillator.start(start);
+        oscillator.stop(start + duration);
+      } catch { /* Sound is optional. */ }
+    }
+
+    function clickSound(frequency = 420, volume = .03) { tone(frequency, .07, volume); }
+    function bellSound() { tone(520, .18, .05); tone(780, .28, .045, .16); }
+    function victorySound() { tone(392, .12, .035); tone(523, .12, .035, .12); tone(659, .22, .04, .24); }
+
+    let toastTimer;
+    function toast(message) {
+      els.toast.textContent = message;
+      els.toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => els.toast.classList.remove("show"), 2800);
+    }
+
+    els.removePlayer.addEventListener("click", () => changePlayerCount(-1));
+    els.addPlayer.addEventListener("click", () => changePlayerCount(1));
+    els.nameGrid.addEventListener("input", () => { state.players = readPlayerNames(); persistSettings(); });
+    els.packChips.addEventListener("click", event => {
+      const chip = event.target.closest(".chip");
+      if (!chip) return;
+      state.pack = chip.dataset.pack;
+      Array.from(els.packChips.children).forEach(item => item.classList.toggle("selected", item === chip));
+      persistSettings();
+      clickSound(500, .03);
+    });
+    els.imposterCount.addEventListener("change", () => { state.imposterCount = Number(els.imposterCount.value); persistSettings(); });
+    els.timerLength.addEventListener("change", () => { state.timerLength = Number(els.timerLength.value); persistSettings(); });
+    els.hintToggle.addEventListener("click", () => toggleSwitch(els.hintToggle, "hints"));
+    els.soundToggle.addEventListener("click", () => toggleSwitch(els.soundToggle, "sound"));
+    els.startGame.addEventListener("click", startRound);
+    els.privacyCard.addEventListener("click", revealRole);
+    els.passButton.addEventListener("click", passDevice);
+    els.beginDiscussion.addEventListener("click", startDiscussion);
+    els.minusTime.addEventListener("click", () => adjustTime(-30));
+    els.plusTime.addEventListener("click", () => adjustTime(30));
+    els.pauseTimer.addEventListener("click", toggleTimer);
+    els.goToVote.addEventListener("click", openVote);
+    els.voteGrid.addEventListener("click", event => {
+      const card = event.target.closest(".vote-card");
+      if (card) toggleVote(Number(card.dataset.index), card);
+    });
+    els.lockVote.addEventListener("click", revealResult);
+    els.playAgain.addEventListener("click", startRound);
+    els.backToSetup.addEventListener("click", () => { renderSetup(); showScreen("setupScreen"); });
+    els.helpButton.addEventListener("click", () => els.helpModal.classList.add("open"));
+    els.closeHelp.addEventListener("click", () => els.helpModal.classList.remove("open"));
+    els.helpModal.addEventListener("click", event => { if (event.target === els.helpModal) els.helpModal.classList.remove("open"); });
+    document.addEventListener("keydown", event => { if (event.key === "Escape") els.helpModal.classList.remove("open"); });
+
+    loadSettings();
+    renderSetup();
+  </script>
+</body>
+</html>
