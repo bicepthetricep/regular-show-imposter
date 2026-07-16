@@ -841,9 +841,9 @@
           <div class="section">
             <span class="label">Choose a secret pack</span>
             <div class="chips" id="packChips">
-              <button class="chip selected" type="button" data-pack="characters"><strong>Characters</strong><small>Park crew, friends &amp; rivals</small></button>
-              <button class="chip" type="button" data-pack="places"><strong>Places</strong><small>From the Park and beyond</small></button>
-              <button class="chip" type="button" data-pack="things"><strong>Objects &amp; Food</strong><small>Iconic stuff and snacks</small></button>
+              <button class="chip selected" type="button" data-pack="characters"><strong>Deep Characters</strong><small>Side characters, villains &amp; rivals</small></button>
+              <button class="chip" type="button" data-pack="places"><strong>Episodes &amp; Places</strong><small>For people who really watched it</small></button>
+              <button class="chip" type="button" data-pack="things"><strong>Items &amp; Food</strong><small>Specific objects, games &amp; snacks</small></button>
               <button class="chip" type="button" data-pack="mixed"><strong>Anything Goes</strong><small>All packs shuffled together</small></button>
             </div>
           </div>
@@ -972,7 +972,9 @@
       <ul>
         <li>Enter everybody's names and choose a themed secret pack.</li>
         <li>Pass the device around. Most players see the same secret; the imposter does not.</li>
-        <li>Starting with the chosen player, each person gives one related clue.</li>
+        <li>The starting player is completely random—even the imposter can be chosen.</li>
+        <li>Starting with that player, each person gives one related clue.</li>
+        <li>With Hint word enabled, an imposter who starts gets a stronger show-specific clue.</li>
         <li>Discuss who sounded suspicious, then vote as a group.</li>
         <li>If every imposter is selected, the crew wins. Otherwise, the imposter wins.</li>
       </ul>
@@ -985,131 +987,228 @@
   <script>
     const PACKS = {
       characters: {
-        name: "Characters",
+        name: "Deep Characters",
         items: [
-          { word: "Mordecai", hint: "A tall blue park employee" },
-          { word: "Rigby", hint: "A chaotic raccoon" },
-          { word: "Benson", hint: "The Park's short-tempered manager" },
-          { word: "Pops", hint: "A cheerful gentleman with a big head" },
-          { word: "Skips", hint: "The wise, immortal groundskeeper" },
-          { word: "Muscle Man", hint: "You know who else is in this pack?" },
-          { word: "High Five Ghost", hint: "A floating best friend" },
-          { word: "Eileen", hint: "Smart, calm and kind" },
-          { word: "Margaret", hint: "A red robin from the coffee shop" },
-          { word: "CJ", hint: "A cloud who controls the weather" },
-          { word: "Thomas", hint: "The Park's mysterious intern" },
-          { word: "Mr. Maellard", hint: "The wealthy owner of the Park" },
-          { word: "Death", hint: "A collector with an arm-wrestling streak" },
-          { word: "Techmo", hint: "A very unusual technician" },
-          { word: "Gary", hint: "A cosmic synth player" },
-          { word: "Party Pete", hint: "He knows how to fill a room" },
-          { word: "Don", hint: "Rigby's more successful brother" },
-          { word: "Quips", hint: "A comedian who cannot stop joking" },
-          { word: "Baby Ducks", hint: "Tiny heroes who combine" },
-          { word: "Guardians of Eternal Youth", hint: "They protect Skips' secret" }
+          { word: "Garrett Bobby Ferguson", hint: "The giant floating arcade-record holder" },
+          { word: "GBF Jr.", hint: "The contractor behind the Exit 9B takeover" },
+          { word: "Death Bear", hint: "The caped former zoo bear" },
+          { word: "Party Horse 42699", hint: "An alien student who would rather party" },
+          { word: "Principal Party Horse", hint: "The authority figure carrying Earth's detonator" },
+          { word: "The Hammer", hint: "The final opponent inside an unbeatable game" },
+          { word: "The Urge", hint: "The musician linked to Rigby's terrible new name" },
+          { word: "Klorgbane", hint: "Skips' ancient, recurring enemy" },
+          { word: "Alpha Dog", hint: "The leader of CrewCrew" },
+          { word: "Doug", hint: "The suspiciously perfect replacement groundskeeper" },
+          { word: "Susan", hint: "The manager who turns workers into copies of herself" },
+          { word: "Peeps", hint: "Surveillance taken to giant-eyeball level" },
+          { word: "Techmo", hint: "Skips' highly upgraded technical friend" },
+          { word: "Gary", hint: "The cosmic guardian with a synthesizer" },
+          { word: "Don", hint: "Rigby's younger and strangely successful brother" },
+          { word: "Quips", hint: "Skips' relentlessly joke-telling cousin" },
+          { word: "Capicola Gang", hint: "The animatronic criminals chasing fuzzy dice" },
+          { word: "God of Basketball", hint: "The being who grants impossible court skills" },
+          { word: "Muscle Dad", hint: "A legendary prankster with a forklift secret" },
+          { word: "Low-Five Ghost", hint: "Fives' tougher ghost brother" },
+          { word: "Master Prank Caller", hint: "The voice reached through the forbidden number" },
+          { word: "Eggscellent Knight", hint: "The mysterious figure guarding an omelette prize" }
         ]
       },
       places: {
-        name: "Places",
+        name: "Episodes & Places",
         items: [
-          { word: "The Park", hint: "Where the crew definitely works hard" },
-          { word: "The House", hint: "The crew's shared home at the Park" },
-          { word: "The Coffee Shop", hint: "Margaret and Eileen's workplace" },
-          { word: "The Snack Bar", hint: "Food, drinks and questionable shifts" },
-          { word: "The Arcade", hint: "Games can get dangerously serious here" },
-          { word: "Cheezers", hint: "A very familiar pizza place" },
-          { word: "Wing Kingdom", hint: "The crew's favourite wing spot" },
-          { word: "The Moon", hint: "Somehow, work has led here" },
-          { word: "Space Tree", hint: "A cosmic version of home" },
-          { word: "Dumptown USA", hint: "A gloomy place to get over heartbreak" },
-          { word: "Death's Realm", hint: "Not the safest day-trip" },
-          { word: "The Realm of Darthon", hint: "A live-action fantasy world" },
-          { word: "The Park Dome", hint: "A dome with a secret purpose" },
-          { word: "East Pines", hint: "The Park's intense rival" },
-          { word: "The Karaoke Bar", hint: "A place where recordings cause trouble" },
-          { word: "The Intergalactic Mall", hint: "Shopping, but in space" }
+          { word: "Exit 9B", hint: "The Park crew reunites against returning villains" },
+          { word: "More Smarter", hint: "Rigby tries to prove himself with a strange supplement" },
+          { word: "Fuzzy Dice", hint: "Pops' birthday prize starts an animatronic chase" },
+          { word: "Rage Against the TV", hint: "A broken television blocks the final boss" },
+          { word: "Karaoke Video", hint: "An embarrassing recording reaches the wrong people" },
+          { word: "Grave Sights", hint: "A cemetery movie night goes extremely wrong" },
+          { word: "The Last LaserDisc Player", hint: "Obsolete formats fight for survival" },
+          { word: "A Bunch of Full Grown Geese", hint: "The ducks return for a much bigger battle" },
+          { word: "Trucker Hall of Fame", hint: "Muscle Man carries out his father's last request" },
+          { word: "Skips Strikes", hint: "A bowling rematch carries a deadly price" },
+          { word: "Cool Bikes", hint: "Two bicycles lead to an intergalactic trial" },
+          { word: "Weekend at Benson's", hint: "A party drink becomes dangerously memorable" },
+          { word: "The Best VHS in the World", hint: "An overdue tape becomes a serious mission" },
+          { word: "Fists of Justice", hint: "Skips prepares for another ancient showdown" },
+          { word: "Dumptown USA", hint: "A strange refuge for heartbroken dudes" },
+          { word: "The Realm of Darthon", hint: "A live-action fantasy game turns real" },
+          { word: "Death's Realm", hint: "Home territory for the supernatural collector" },
+          { word: "Fun Fun Zone", hint: "The arcade hiding a diamond-smuggling operation" },
+          { word: "Jimbros' Burritos", hint: "The drive-through with a strict vehicle rule" },
+          { word: "Party Horse Planet", hint: "A world where almost every building hosts a party" },
+          { word: "Steak Me Amadeus", hint: "The restaurant accepting suspicious special dollars" },
+          { word: "Wing Kingdom", hint: "The crew's preferred place for wings and celebrations" }
         ]
       },
       things: {
-        name: "Objects & Food",
+        name: "Items & Food",
         items: [
-          { word: "The Power", hint: "A keyboard that makes lyrics real" },
-          { word: "The Golf Cart", hint: "The crew's preferred transport" },
-          { word: "Rig Juice", hint: "A suspicious homemade drink" },
-          { word: "Mississippi Queen", hint: "A dangerously spicy challenge" },
-          { word: "Death Kwon Do Sandwich", hint: "A meal with combat potential" },
-          { word: "Ultimeatum", hint: "The ultimate cheeseburger" },
-          { word: "Apple Fritters", hint: "A sweet shortcut to finishing chores" },
-          { word: "Eggscellent Hat", hint: "A prize worth a giant omelette" },
-          { word: "Blonde Hair Dye", hint: "A shortcut to a new look" },
-          { word: "The Cart", hint: "It has survived far too much" },
-          { word: "Solid", hint: "A VHS game with very real consequences" },
-          { word: "The Maximum Glove", hint: "An arcade prize with huge power" },
-          { word: "Grilled Cheese Deluxe", hint: "A sandwich tied to an obvious lie" },
-          { word: "Chicken Wings", hint: "The crew's celebration food" },
-          { word: "Coffee", hint: "Sometimes it grants extreme energy" },
-          { word: "The Hammer", hint: "A famous arcade opponent" },
-          { word: "Summertime Lovin' Tape", hint: "A song that never leaves your head" },
-          { word: "Benson's Gumballs", hint: "Part of the manager, not a snack" }
+          { word: "Brain Max", hint: "The green-apple shortcut to intelligence" },
+          { word: "Quartz, Parchment, Shears", hint: "The evil Lolliland version of a simple hand game" },
+          { word: "The Power", hint: "The keyboard that turns lyrics into reality" },
+          { word: "Broken Bonez", hint: "The arcade game with a legendary high score" },
+          { word: "Death Sandwich", hint: "The deadly sub requiring a very specific outfit" },
+          { word: "Double Glazed Apple Fritters", hint: "The sugary route to finishing every chore" },
+          { word: "Every Meat Burrito", hint: "Jimbros' car-only menu item" },
+          { word: "Ultimeatum", hint: "The burger that separates chumps from non-chumps" },
+          { word: "Eggscellent Hat", hint: "The prize for surviving an enormous omelette" },
+          { word: "The Maximum Glove", hint: "The arcade prize with very real power" },
+          { word: "Rig Juice", hint: "Rigby's homemade opposite to Brain Max" },
+          { word: "Wall Buddy", hint: "The bedroom-cleaning product that takes control" },
+          { word: "The Russian", hint: "Rigby's questionable shortcut to doing a pull-up" },
+          { word: "Mordecai and the Rigbys Tape", hint: "A recording sent back by future musicians" },
+          { word: "Moustaches Monthly", hint: "Pops' magazine that leads to brain erasure" },
+          { word: "Summertime Lovin' Tape", hint: "The endlessly repeated seasonal earworm" },
+          { word: "Fuzzy Dice", hint: "Pops' birthday gift containing uncut diamonds" },
+          { word: "Inferno Challenge Wings", hint: "The Wing Kingdom order associated with death" },
+          { word: "Grilled Cheese Deluxe", hint: "The sandwich at the centre of a terrible lie" },
+          { word: "Solid", hint: "The VHS game with consequences beyond the screen" },
+          { word: "Carmenita", hint: "Pops' distinctive favourite car" },
+          { word: "The Cart", hint: "The Park vehicle that survives impossible damage" },
+          { word: "Dark Christmas Box", hint: "A festive container holding something very unfestive" },
+          { word: "Prank Caller's Phone", hint: "The telephone tied to a trip back to 1982" }
         ]
       }
     };
 
     const IMPOSTER_HINTS = {
-      "Mordecai": "Bird",
-      "Rigby": "Tail",
-      "Benson": "Manager",
-      "Pops": "Gentleman",
-      "Skips": "Immortal",
-      "Muscle Man": "Green",
-      "High Five Ghost": "Floating",
-      "Eileen": "Glasses",
-      "Margaret": "Coffee",
-      "CJ": "Weather",
-      "Thomas": "Intern",
-      "Mr. Maellard": "Owner",
-      "Death": "Scythe",
+      "Garrett Bobby Ferguson": "Arcade",
+      "GBF Jr.": "Contractor",
+      "Death Bear": "Animal",
+      "Party Horse 42699": "Alien",
+      "Principal Party Horse": "School",
+      "The Hammer": "Boss",
+      "The Urge": "Musician",
+      "Klorgbane": "Immortal",
+      "Alpha Dog": "Rapper",
+      "Doug": "Worker",
+      "Susan": "Manager",
+      "Peeps": "Watching",
       "Techmo": "Technology",
-      "Gary": "Synth",
-      "Party Pete": "Celebration",
-      "Don": "Brother",
-      "Quips": "Jokes",
-      "Baby Ducks": "Teamwork",
-      "Guardians of Eternal Youth": "Youth",
-      "The Park": "Work",
-      "The House": "Home",
-      "The Coffee Shop": "Caffeine",
-      "The Snack Bar": "Food",
-      "The Arcade": "Games",
-      "Cheezers": "Pizza",
-      "Wing Kingdom": "Chicken",
-      "The Moon": "Space",
-      "Space Tree": "Cosmic",
-      "Dumptown USA": "Sadness",
-      "Death's Realm": "Afterlife",
+      "Gary": "Music",
+      "Don": "Family",
+      "Quips": "Comedian",
+      "Capicola Gang": "Robots",
+      "God of Basketball": "Powers",
+      "Muscle Dad": "Trucker",
+      "Low-Five Ghost": "Ghost",
+      "Master Prank Caller": "Phone",
+      "Eggscellent Knight": "Challenge",
+      "Exit 9B": "Highway",
+      "More Smarter": "Diploma",
+      "Fuzzy Dice": "Birthday",
+      "Rage Against the TV": "Arcade",
+      "Karaoke Video": "Singing",
+      "Grave Sights": "Movie",
+      "The Last LaserDisc Player": "Format",
+      "A Bunch of Full Grown Geese": "Birds",
+      "Trucker Hall of Fame": "Ashes",
+      "Skips Strikes": "Bowling",
+      "Cool Bikes": "Bicycle",
+      "Weekend at Benson's": "Party",
+      "The Best VHS in the World": "Rental",
+      "Fists of Justice": "Ancient",
+      "Dumptown USA": "Heartbreak",
       "The Realm of Darthon": "Fantasy",
-      "The Park Dome": "Experiment",
-      "East Pines": "Rival",
-      "The Karaoke Bar": "Singing",
-      "The Intergalactic Mall": "Shopping",
+      "Death's Realm": "Afterlife",
+      "Fun Fun Zone": "Arcade",
+      "Jimbros' Burritos": "Drive-through",
+      "Party Horse Planet": "Space",
+      "Steak Me Amadeus": "Restaurant",
+      "Wing Kingdom": "Food",
+      "Brain Max": "Intelligence",
+      "Quartz, Parchment, Shears": "Game",
       "The Power": "Music",
-      "The Golf Cart": "Vehicle",
-      "Rig Juice": "Drink",
-      "Mississippi Queen": "Spicy",
-      "Death Kwon Do Sandwich": "Combat",
+      "Broken Bonez": "Highscore",
+      "Death Sandwich": "Food",
+      "Double Glazed Apple Fritters": "Pastry",
+      "Every Meat Burrito": "Drive-through",
       "Ultimeatum": "Burger",
-      "Apple Fritters": "Pastry",
       "Eggscellent Hat": "Prize",
-      "Blonde Hair Dye": "Colour",
-      "The Cart": "Wheels",
-      "Solid": "Game",
       "The Maximum Glove": "Arcade",
-      "Grilled Cheese Deluxe": "Sandwich",
-      "Chicken Wings": "Food",
-      "Coffee": "Energy",
-      "The Hammer": "Opponent",
+      "Rig Juice": "Drink",
+      "Wall Buddy": "Robot",
+      "The Russian": "Exercise",
+      "Mordecai and the Rigbys Tape": "Band",
+      "Moustaches Monthly": "Magazine",
       "Summertime Lovin' Tape": "Song",
-      "Benson's Gumballs": "Manager"
+      "Inferno Challenge Wings": "Spicy",
+      "Grilled Cheese Deluxe": "Sandwich",
+      "Solid": "Game",
+      "Carmenita": "Car",
+      "The Cart": "Vehicle",
+      "Dark Christmas Box": "Present",
+      "Prank Caller's Phone": "Telephone"
+    };
+
+    const STARTER_HINTS = {
+      "Garrett Bobby Ferguson": "BrokenBonez",
+      "GBF Jr.": "Exit9B",
+      "Death Bear": "Pickelhaube",
+      "Party Horse 42699": "History",
+      "Principal Party Horse": "Detonator",
+      "The Hammer": "Television",
+      "The Urge": "Trashboat",
+      "Klorgbane": "Skips",
+      "Alpha Dog": "CrewCrew",
+      "Doug": "Replacement",
+      "Susan": "Duplicates",
+      "Peeps": "Eyeball",
+      "Techmo": "Cyborg",
+      "Gary": "Synth",
+      "Don": "Sugar",
+      "Quips": "Skips",
+      "Capicola Gang": "Diamonds",
+      "God of Basketball": "Basketball",
+      "Muscle Dad": "Forklift",
+      "Low-Five Ghost": "Brother",
+      "Master Prank Caller": "1982",
+      "Eggscellent Knight": "Omelette",
+      "Exit 9B": "Portal",
+      "More Smarter": "BrainMax",
+      "Fuzzy Dice": "Diamonds",
+      "Rage Against the TV": "Hammer",
+      "Karaoke Video": "Recording",
+      "Grave Sights": "Zombies",
+      "The Last LaserDisc Player": "HD-DVD",
+      "A Bunch of Full Grown Geese": "Hyperduck",
+      "Trucker Hall of Fame": "Forklift",
+      "Skips Strikes": "DeathBlock",
+      "Cool Bikes": "CoolCourt",
+      "Weekend at Benson's": "MississippiQueen",
+      "The Best VHS in the World": "VCR",
+      "Fists of Justice": "Klorgbane",
+      "Dumptown USA": "Breakup",
+      "The Realm of Darthon": "LiveAction",
+      "Death's Realm": "ArmWrestling",
+      "Fun Fun Zone": "Capicola",
+      "Jimbros' Burritos": "EveryMeat",
+      "Party Horse Planet": "History",
+      "Steak Me Amadeus": "AmadeusDollars",
+      "Wing Kingdom": "Wings",
+      "Brain Max": "Diploma",
+      "Quartz, Parchment, Shears": "HundredTies",
+      "The Power": "Lyrics",
+      "Broken Bonez": "GBF",
+      "Death Sandwich": "Mullet",
+      "Double Glazed Apple Fritters": "Chores",
+      "Every Meat Burrito": "Jimbros",
+      "Ultimeatum": "Chumps",
+      "Eggscellent Hat": "Omelette",
+      "The Maximum Glove": "Prize",
+      "Rig Juice": "Dumb",
+      "Wall Buddy": "Bedroom",
+      "The Russian": "Pullup",
+      "Mordecai and the Rigbys Tape": "Future",
+      "Moustaches Monthly": "BrainEraser",
+      "Summertime Lovin' Tape": "Earworm",
+      "Inferno Challenge Wings": "Death",
+      "Grilled Cheese Deluxe": "Lies",
+      "Solid": "VHS",
+      "Carmenita": "Pops",
+      "The Cart": "CrashPit",
+      "Dark Christmas Box": "AntiChristmas",
+      "Prank Caller's Phone": "1982"
     };
 
     const els = Object.fromEntries(Array.from(document.querySelectorAll("[id]")).map(el => [el.id, el]));
@@ -1125,6 +1224,7 @@
       sound: true,
       roles: [],
       secret: null,
+      starterIndex: null,
       revealIndex: 0,
       cardRevealed: false,
       selectedVotes: new Set(),
@@ -1263,6 +1363,7 @@
 
       const imposterIndexes = shuffle(state.players.map((_, i) => i)).slice(0, state.imposterCount);
       state.roles = state.players.map((_, i) => ({ imposter: imposterIndexes.includes(i) }));
+      state.starterIndex = Math.floor(Math.random() * state.players.length);
       state.revealIndex = 0;
       state.cardRevealed = false;
       state.selectedVotes.clear();
@@ -1296,17 +1397,21 @@
       if (state.cardRevealed) return;
       state.cardRevealed = true;
       const isImposter = state.roles[state.revealIndex].imposter;
+      const isStarter = state.revealIndex === state.starterIndex;
       els.hiddenContent.hidden = true;
       els.roleContent.hidden = false;
       els.privacyCard.classList.add("revealed", isImposter ? "imposter" : "crew");
       els.privacyCard.setAttribute("aria-label", isImposter ? "You are the imposter" : `Your secret is ${state.secret.word}`);
       if (isImposter) {
+        const hintWord = isStarter
+          ? STARTER_HINTS[state.secret.word] || IMPOSTER_HINTS[state.secret.word] || packName()
+          : IMPOSTER_HINTS[state.secret.word] || packName();
         els.roleContent.innerHTML = `
           <span class="card-icon">🕵️</span>
           <span class="secret-label">Your role</span>
           <span class="secret-word">Imposter</span>
           <span class="secret-hint">${state.hints
-            ? `The pack is <strong>${escapeHtml(packName())}</strong><br>Hint word: <strong>${escapeHtml(IMPOSTER_HINTS[state.secret.word] || packName())}</strong>`
+            ? `${isStarter ? "<strong>You give the first clue.</strong><br>" : ""}The pack is <strong>${escapeHtml(packName())}</strong><br>${isStarter ? "Starter hint" : "Hint word"}: <strong>${escapeHtml(hintWord)}</strong>`
             : "You get no hint this round. Listen carefully and blend in."}</span>`;
         clickSound(150, .06);
       } else {
@@ -1326,8 +1431,7 @@
         state.revealIndex += 1;
         renderReveal();
       } else {
-        const safeStarters = state.players.filter((_, i) => !state.roles[i].imposter);
-        els.starterName.textContent = pickRandom(safeStarters.length ? safeStarters : state.players);
+        els.starterName.textContent = state.players[state.starterIndex];
         showScreen("readyScreen");
       }
       clickSound(440, .03);
