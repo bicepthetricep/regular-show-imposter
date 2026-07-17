@@ -841,9 +841,9 @@
           <div class="section">
             <span class="label">Choose a secret pack</span>
             <div class="chips" id="packChips">
-              <button class="chip selected" type="button" data-pack="characters"><strong>Deep Characters</strong><small>Side characters, villains &amp; rivals</small></button>
-              <button class="chip" type="button" data-pack="places"><strong>Episodes &amp; Places</strong><small>For people who really watched it</small></button>
-              <button class="chip" type="button" data-pack="things"><strong>Items &amp; Food</strong><small>Specific objects, games &amp; snacks</small></button>
+              <button class="chip selected" type="button" data-pack="characters"><strong>Ultra-Deep Characters</strong><small>One-offs, fake names &amp; background chaos</small></button>
+              <button class="chip" type="button" data-pack="places"><strong>Obscure Episodes</strong><small>Deep cuts from Seasons 1–3 and beyond</small></button>
+              <button class="chip" type="button" data-pack="things"><strong>Obscure Media &amp; Items</strong><small>Fake shows, products, games &amp; props</small></button>
               <button class="chip" type="button" data-pack="mixed"><strong>Anything Goes</strong><small>All packs shuffled together</small></button>
             </div>
           </div>
@@ -866,7 +866,7 @@
               </select>
             </label>
             <div class="setting-card toggle-row">
-              <div><span class="label">Hint word</span><small>Vague clue for imposter</small></div>
+              <div><span class="label">Hint word</span><small>Helpful theme + clue for imposter</small></div>
               <button class="switch" id="hintToggle" type="button" role="switch" aria-checked="true" aria-label="Toggle imposter hint"></button>
             </div>
             <div class="setting-card toggle-row">
@@ -985,7 +985,7 @@
   <div class="toast" id="toast" role="status"></div>
 
   <script>
-    const PACKS = {
+    const NICHE_PACKS = {
       characters: {
         name: "Deep Characters",
         items: [
@@ -1071,7 +1071,7 @@
       }
     };
 
-    const IMPOSTER_HINTS = {
+    const NICHE_IMPOSTER_HINTS = {
       "Garrett Bobby Ferguson": "Arcade",
       "GBF Jr.": "Contractor",
       "Death Bear": "Animal",
@@ -1141,7 +1141,7 @@
       "Prank Caller's Phone": "Telephone"
     };
 
-    const STARTER_HINTS = {
+    const NICHE_STARTER_HINTS = {
       "Garrett Bobby Ferguson": "BrokenBonez",
       "GBF Jr.": "Exit9B",
       "Death Bear": "Pickelhaube",
@@ -1210,6 +1210,480 @@
       "Dark Christmas Box": "AntiChristmas",
       "Prank Caller's Phone": "1982"
     };
+
+    const PACKS = {
+      characters: {
+        name: "Ultra-Deep Characters",
+        items: [
+          { word: "Icedrom and Igbir", hint: "A mirrored pair from Season Two" },
+          { word: "Broseph Chillaxton", hint: "A one-off Season Three party character" },
+          { word: "Buttonwillow McButtonwillow", hint: "A deep-cut figure from the Darthon era" },
+          { word: "Doom Ma Geddon", hint: "A Season Three video-game threat" },
+          { word: "Guardian of Margaret's Secrets", hint: "A supernatural keeper of private information" },
+          { word: "Holo-Mordecai and Holo-Rigby", hint: "Artificial copies of the familiar duo" },
+          { word: "Jan the Wallpaper Man", hint: "A very specific Season Four tradesman" },
+          { word: "K.I.L.I.T. DJ 3000", hint: "A machine whose name sounds like a radio station" },
+          { word: "Promise Pie", hint: "A dishonest dessert from a judging contest" },
+          { word: "VCR-bitrator", hint: "An authority from the world of obsolete formats" },
+          { word: "Jebediah Townhouse", hint: "A name tied to intergalactic dodgeball" },
+          { word: "Johnny Crasher", hint: "One of the show's many dangerously named stuntmen" },
+          { word: "TantsCo President", hint: "The executive behind a questionable clothing product" },
+          { word: "Cool Court Prosecutor", hint: "The official arguing a case about bicycles" },
+          { word: "Quillgin", hint: "A later-series antagonist with a very obscure name" },
+          { word: "Racki the Wishmaker", hint: "A Season Seven figure associated with wishes" },
+          { word: "Tape Hunter", hint: "A character built around finding a recording" },
+          { word: "Flannery Shedlawn", hint: "A bizarrely named Season Seven park figure" }
+        ]
+      },
+      places: {
+        name: "Obscure Episodes",
+        items: [
+          { word: "The Postcard", hint: "A Season Five story driven by an old message" },
+          { word: "Tants", hint: "An episode named after a terrible fashion invention" },
+          { word: "Portable Toilet", hint: "A dare leaves two characters trapped somewhere awful" },
+          { word: "Laundry Woes", hint: "A quiet errand turns into a relationship story" },
+          { word: "The Eileen Plan", hint: "A long-term plan forces Rigby to think ahead" },
+          { word: "New Bro on Campus", hint: "Rigby's old school rival returns" },
+          { word: "Brilliant Century Duck Crisis Special", hint: "A huge anime-style toy-company battle" },
+          { word: "The Dome Experiment Special", hint: "Benson insists he remembers the correct date" },
+          { word: "Not Great Double Date", hint: "An awkward outing involving two couples" },
+          { word: "Expert or Liar", hint: "Rigby returns to a hostile television quiz" },
+          { word: "Guys Night 2", hint: "The gang prepares a final adventure for Thomas" },
+          { word: "Cube Bros", hint: "Office drones recruit Muscle Man for a corporate job" },
+          { word: "Journey to the Bottom of the Crash Pit", hint: "The title says exactly where the crew must go" }
+        ]
+      },
+      things: {
+        name: "Obscure Media & Items",
+        items: [
+          { word: "Planet Chasers: Starlight Excellent", hint: "The anime playing inside the video shop" },
+          { word: "Good Cop, Sad Cop", hint: "The film needed for an unusual memory treatment" },
+          { word: "South of the Line Chile Rellenos", hint: "An extremely specific fictional food product" },
+          { word: "Smärten Kärten", hint: "One of Rigby's suspicious purchased solutions" },
+          { word: "Magic Rattle", hint: "A powerful object connected to the baby ducks" },
+          { word: "Corny", hint: "A mascot-like figure with a deceptively simple name" },
+          { word: "Beef Burrito", hint: "A food-based character rather than an ordinary meal" },
+          { word: "British Taxi", hint: "The vehicle connected to a terrifying old movie" },
+          { word: "Skull Punch's RV", hint: "A touring vehicle belonging to a fictional band" },
+          { word: "The Button", hint: "A tiny object with universe-level importance" },
+          { word: "Trampy", hint: "The name given to a particularly important trailer" },
+          { word: "RGB2", hint: "A forgotten television star with devoted convention fans" },
+          { word: "Hair to the Throne", hint: "The band from Benson's drumming past" },
+          { word: "Carter and Briggs", hint: "The fictional cop show loved by the Park crew" },
+          { word: "Cool Cubed", hint: "A drink sold alongside a talking translator" },
+          { word: "Amadeus Dollars", hint: "Suspicious currency accepted at an expensive restaurant" },
+          { word: "Radi-Cola", hint: "The drink responsible for Party Pete's extreme energy" },
+          { word: "Mustache Cash Stash", hint: "A rejected name for Mordecai and Rigby's band" },
+          { word: "Fist Punch 2", hint: "One of the fictional games featuring familiar enemies" },
+          { word: "Cupcakes of Doom", hint: "A game title connected to Klorgbane" },
+          { word: "Dance of Doom", hint: "Another unusually named game in the same universe" },
+          { word: "K.I.L.I.T. Radio", hint: "The station connected to a dangerous DJ machine" }
+        ]
+      }
+    };
+
+    const IMPOSTER_HINTS = {
+      "Icedrom and Igbir": "Mirrors",
+      "Broseph Chillaxton": "Party",
+      "Buttonwillow McButtonwillow": "Fantasy",
+      "Doom Ma Geddon": "Arcade",
+      "Guardian of Margaret's Secrets": "Dating",
+      "Holo-Mordecai and Holo-Rigby": "Copies",
+      "Jan the Wallpaper Man": "Tradesman",
+      "K.I.L.I.T. DJ 3000": "Music",
+      "Promise Pie": "Contest",
+      "VCR-bitrator": "Format",
+      "Jebediah Townhouse": "Dodgeball",
+      "Johnny Crasher": "Stunts",
+      "TantsCo President": "Clothing",
+      "Cool Court Prosecutor": "Court",
+      "Quillgin": "Villain",
+      "Racki the Wishmaker": "Wishes",
+      "Tape Hunter": "Recording",
+      "Flannery Shedlawn": "Park",
+      "The Postcard": "Message",
+      "Tants": "Fashion",
+      "Portable Toilet": "Bathroom",
+      "Laundry Woes": "Clothes",
+      "The Eileen Plan": "Future",
+      "New Bro on Campus": "School",
+      "Brilliant Century Duck Crisis Special": "Anime",
+      "The Dome Experiment Special": "Science",
+      "Not Great Double Date": "Romance",
+      "Expert or Liar": "Quiz",
+      "Guys Night 2": "Farewell",
+      "Cube Bros": "Geometry",
+      "Journey to the Bottom of the Crash Pit": "Journey",
+      "Planet Chasers: Starlight Excellent": "Anime",
+      "Good Cop, Sad Cop": "Movie",
+      "South of the Line Chile Rellenos": "Food",
+      "Smärten Kärten": "Product",
+      "Magic Rattle": "Toy",
+      "Corny": "Mascot",
+      "Beef Burrito": "Food",
+      "British Taxi": "Vehicle",
+      "Skull Punch's RV": "Band",
+      "The Button": "Object",
+      "Trampy": "Trailer",
+      "RGB2": "Television",
+      "Hair to the Throne": "Band",
+      "Carter and Briggs": "Cops",
+      "Cool Cubed": "Drink",
+      "Amadeus Dollars": "Money",
+      "Radi-Cola": "Drink",
+      "Mustache Cash Stash": "Band",
+      "Fist Punch 2": "Game",
+      "Cupcakes of Doom": "Game",
+      "Dance of Doom": "Game",
+      "K.I.L.I.T. Radio": "Station"
+    };
+
+    const STARTER_HINTS = {
+      "Icedrom and Igbir": "Opposites",
+      "Broseph Chillaxton": "Chillaxton",
+      "Buttonwillow McButtonwillow": "Darthon",
+      "Doom Ma Geddon": "Error220",
+      "Guardian of Margaret's Secrets": "Margaret",
+      "Holo-Mordecai and Holo-Rigby": "Holograms",
+      "Jan the Wallpaper Man": "Wallpaper",
+      "K.I.L.I.T. DJ 3000": "DJ3000",
+      "Promise Pie": "Truth",
+      "VCR-bitrator": "VHS",
+      "Jebediah Townhouse": "Council",
+      "Johnny Crasher": "Stuntman",
+      "TantsCo President": "Tants",
+      "Cool Court Prosecutor": "Bikes",
+      "Quillgin": "Antagonist",
+      "Racki the Wishmaker": "Wishmaker",
+      "Tape Hunter": "FixThatTape",
+      "Flannery Shedlawn": "Shed",
+      "The Postcard": "Margaret",
+      "Tants": "Pants",
+      "Portable Toilet": "SpaceLaser",
+      "Laundry Woes": "Sweater",
+      "The Eileen Plan": "College",
+      "New Bro on Campus": "Jablonski",
+      "Brilliant Century Duck Crisis Special": "ToyCompany",
+      "The Dome Experiment Special": "Dome",
+      "Not Great Double Date": "CJ",
+      "Expert or Liar": "BertColeman",
+      "Guys Night 2": "Thomas",
+      "Cube Bros": "Cubes",
+      "Journey to the Bottom of the Crash Pit": "CrashPit",
+      "Planet Chasers: Starlight Excellent": "Starlight",
+      "Good Cop, Sad Cop": "BrainEraser",
+      "South of the Line Chile Rellenos": "Rellenos",
+      "Smärten Kärten": "Rigby",
+      "Magic Rattle": "Ducks",
+      "Corny": "Corn",
+      "Beef Burrito": "Character",
+      "British Taxi": "Govnor",
+      "Skull Punch's RV": "SkullPunch",
+      "The Button": "Universe",
+      "Trampy": "Trailer",
+      "RGB2": "Convention",
+      "Hair to the Throne": "Benson",
+      "Carter and Briggs": "CopShow",
+      "Cool Cubed": "Translator",
+      "Amadeus Dollars": "Steak",
+      "Radi-Cola": "PartyPete",
+      "Mustache Cash Stash": "TShirts",
+      "Fist Punch 2": "Klorgbane",
+      "Cupcakes of Doom": "Klorgbane",
+      "Dance of Doom": "Klorgbane",
+      "K.I.L.I.T. Radio": "DJ3000"
+    };
+
+    const EXTRA_WORDS = {
+      characters: [
+        ["Barry & Jones", "Concert", "Duo"],
+        ["Basketball Body", "Basketball", "Body"],
+        ["Coffee Bean & Translator", "Caffeine", "Duo"],
+        ["Destroyer of Worlds", "Arcade", "Monster"],
+        ["Fist Pump", "Party", "Character"],
+        ["Future Mordecai and Future Rigby", "Future", "Copies"],
+        ["Game Store Manager", "Darthon", "Manager"],
+        ["Hi Five Ghost's Father", "Ghost", "Family"],
+        ["Huge Head", "Pops", "Head"],
+        ["Night Owl", "Eighties", "Collector"],
+        ["Snowballs the Ice Monster", "Ice", "Monster"],
+        ["Summertime Song", "Earworm", "Music"],
+        ["Warden of the Internet", "Internet", "Warden"],
+        ["Were-Skunk", "Spray", "Creature"],
+        ["Wrassle Frassle Wrestlers", "Wrestling", "Fighters"],
+        ["Bloodshed & Manslaughter", "Metal", "Band"],
+        ["Chad & Jeremy", "Geese", "Duo"],
+        ["CrewCrew", "Rap", "Group"],
+        ["Death's Wife", "Death", "Family"],
+        ["East Pines Rangers", "Rival", "Workers"],
+        ["Filbert & Mulligan", "Eggscellent", "Duo"],
+        ["Grease Monster", "Grease", "Monster"],
+        ["Halloween Wizard", "Halloween", "Magic"],
+        ["Keepers of the Voicemail", "Phone", "Guardians"],
+        ["No Rules Guy", "Rules", "Character"],
+        ["Park Avenue", "Wealth", "Character"],
+        ["Soul-Sucking Death Worm", "Worm", "Creature"],
+        ["Stag-Man", "Deer", "Creature"],
+        ["Trash & Scabitha", "Punk", "Duo"],
+        ["Trucker Ghosts", "Trucks", "Ghosts"],
+        ["Warlock", "Magic", "Villain"],
+        ["Ancient Order of the VHS", "VHS", "Order"],
+        ["Archie the Archivist", "LaserDisc", "Archivist"],
+        ["Ballroom Ghosts", "Dancing", "Ghosts"],
+        ["Drumatron VI", "Benson", "Machine"],
+        ["Guardian of the Friend Zone", "Mordecai", "Guardian"],
+        ["Guardians of Obsolete Formats", "LaserDisc", "Guardians"],
+        ["Huggstables", "Hugging", "Creatures"],
+        ["Limosaurus", "Limousine", "Vehicle"],
+        ["Milk Creatures", "GuysNight", "Creatures"],
+        ["Party Bus Driver", "Party", "Driver"],
+        ["Stress Monster", "Skips", "Monster"],
+        ["That's My Television Executive", "RGB2", "Executive"],
+        ["The Wickets", "Game", "Group"]
+      ].map(([word, starterHint, imposterHint]) => ({
+        word,
+        hint: "An extra-deep character reference—trust your rewatch memory.",
+        imposterHint,
+        starterHint
+      })),
+      places: [
+        ["Starter Pack", "Thomas"],
+        ["Pie Contest", "PromisePie"],
+        ["150 Piece Kit", "Drums"],
+        ["Bald Spot", "MuscleMan"],
+        ["Guy's Night", "Milk"],
+        ["One Pull Up", "Russian"],
+        ["The Longest Weekend", "Starla"],
+        ["Sandwich of Death", "Mullet"],
+        ["Ace Balthazar Lives", "Band"],
+        ["Do or Diaper", "Margaret"],
+        ["Caveman", "Frozen"],
+        ["That's My Television", "RGB2"],
+        ["Fool Me Twice", "GameShow"],
+        ["Limousine Lunchtime", "Limosaurus"],
+        ["Picking Up Margaret", "Airport"],
+        ["Sleep Fighter", "Sleep"],
+        ["World's Best Boss", "Benson"],
+        ["Skips' Stress", "Stress"],
+        ["Last Meal", "Food"],
+        ["Trailer Trashed", "Trampy"],
+        ["Meteor Moves", "Kiss"],
+        ["Family BBQ", "Margaret"],
+        ["Country Club", "Toilets"],
+        ["Blind Trust", "Skips"],
+        ["Silver Dude", "Street"],
+        ["A Skips in Time", "Walks"],
+        ["Survival Skills", "Tortillas"],
+        ["Bank Shot", "Basketball"],
+        ["Power Tower", "Bodybuilding"],
+        ["The Heart of a Stuntman", "JohnnyCrasher"],
+        ["New Year's Kiss", "Time"],
+        ["Dodge This", "Dodgeball"],
+        ["Rigby in the Sky with Burrito", "Burrito"],
+        ["Saving Time", "Daylight"],
+        ["Guitar of Rock", "Benson"],
+        ["Skips' Story", "Mona"],
+        ["Return of Mordecai and the Rigbys", "Band"],
+        ["Bad Portrait", "Painting"],
+        ["Video 101", "Margaret"],
+        ["Catching the Wave", "Pops"],
+        ["Gold Watch", "Benson"],
+        ["Paint Job", "Paint"],
+        ["Take the Cake", "Cake"],
+        ["Skips in the Saddle", "Dating"],
+        ["Thomas Fights Back", "Russia"],
+        ["Bachelor Party! Zingo!!", "MuscleMan"],
+        ["Tent Trouble", "Camping"],
+        ["Real Date", "Margaret"],
+        ["Maxin' and Relaxin'", "Mordecai"],
+        ["Lift with Your Back", "MuscleMan"],
+        ["The End of Muscle Man", "Wedding"],
+        ["Sad Sax", "Mordecai"],
+        ["Park Managers' Lunch", "Benson"],
+        ["Mordecai and Rigby Down Under", "Australia"],
+        ["The Real Thomas", "Russia"],
+        ["Gamers Never Say Die", "Map"],
+        ["1000th Chopper Flight Party", "Benson"],
+        ["Men in Uniform", "Park"],
+        ["Garage Door", "Salesman"],
+        ["VIP Members Only", "Club"]
+      ].map(([word, starterHint]) => ({
+        word,
+        hint: "A less-remembered episode title from the middle or later seasons.",
+        imposterHint: "Episode",
+        starterHint
+      })),
+      things: [
+        ["The Power", "Keyboard", "Music"],
+        ["Rig Juice", "Dumb", "Drink"],
+        ["Death Sandwich", "Mullet", "Food"],
+        ["Double Glazed Apple Fritters", "Chores", "Pastry"],
+        ["Every Meat Burrito", "Jimbros", "Food"],
+        ["Ultimeatum", "Chumps", "Burger"],
+        ["Eggscellent Hat", "Omelette", "Prize"],
+        ["The Maximum Glove", "Arcade", "Prize"],
+        ["Wall Buddy", "Bedroom", "Product"],
+        ["The Russian", "Pullup", "Equipment"],
+        ["Mordecai and the Rigbys Tape", "Future", "Recording"],
+        ["Moustaches Monthly", "BrainEraser", "Magazine"],
+        ["Summertime Lovin' Tape", "Earworm", "Song"],
+        ["Fuzzy Dice", "Diamonds", "Gift"],
+        ["Inferno Challenge Wings", "Death", "Food"],
+        ["Grilled Cheese Deluxe", "Lies", "Sandwich"],
+        ["Solid", "VHS", "Game"],
+        ["Carmenita", "Pops", "Car"],
+        ["The Cart", "CrashPit", "Vehicle"],
+        ["Dark Christmas Box", "AntiChristmas", "Present"],
+        ["Prank Caller's Phone", "1982", "Telephone"],
+        ["Skips' Volkswagen", "Skips", "Car"],
+        ["Margaret's Car", "Margaret", "Vehicle"],
+        ["Meatball", "Food", "Object"],
+        ["The Park Truck", "Park", "Vehicle"],
+        ["The Golf Cart", "Groundskeepers", "Vehicle"],
+        ["Eggscellent Challenge", "Omelette", "Food"],
+        ["Death Block", "Bowling", "Move"],
+        ["Gary's Synthesizer", "Gary", "Instrument"],
+        ["Mississippi Queen", "Spicy", "Drink"]
+      ].map(([word, starterHint, imposterHint]) => ({
+        word,
+        hint: "A show-specific prop, product, food, vehicle or piece of media.",
+        imposterHint,
+        starterHint
+      }))
+    };
+
+    const EARLY_SEASON_WORDS = {
+      characters: [
+        ["Gary", "Skips' synth-playing friend from the eternal-youth circle.", "Immortal", "Synthesizer"],
+        ["Don", "Rigby's polite younger brother who works in accounting.", "Family", "Sugar"],
+        ["Guardians of Eternal Youth", "The immortal group that gathers for Skips' birthday ritual.", "Immortals", "FreeCake"],
+        ["Hot Dogs", "The sentient sausages who trap the pair inside the meat locker.", "Food", "MeatLocker"],
+        ["Lemon Chef", "The fruit-headed arcade hero who defeats the Destroyer of Worlds.", "Arcade", "Chairs"],
+        ["Master Prank Caller", "The phone legend waiting at the end of a forbidden number.", "Telephone", "1982"],
+        ["Moon Monster", "The Beef Burrito–Mordecai–Rigby hybrid sent away by The Power.", "Creature", "BeefBurrito"],
+        ["Sensai", "The martial-arts master behind Rigby's death-punch training.", "MartialArts", "DeathPunchies"],
+        ["Unicorns", "The loud party-crashers attracted by Rigby's new cologne.", "Party", "Cologne"],
+        ["Wizard", "The bearded figure tied to the magical keyboard's origin.", "Magic", "Keyboard"],
+        ["Jimmy (Birthday Boy)", "The rude child whose party needs an impossible number of chairs.", "Birthday", "Chairs"],
+        ["Special Entertainment", "The doomed clown-and-pony act hired for Jimmy's birthday.", "Performers", "DestroyerOfWorlds"],
+        ["Slasher", "Margaret's boyfriend during the concert-ticket coffee binge.", "Boyfriend", "FistPump"],
+        ["Cheezer's Cashier", "The employee who believes Mordecai and Rigby are astronauts.", "Cashier", "GrilledCheese"],
+        ["Dr. Asinovskovich", "The Compound scientist dragged into Mordecai's pink-sweater lie.", "Scientist", "PinkSweater"],
+        ["Jimmy (Scientist)", "The ignored Compound worker warning everyone about antimatter.", "Scientist", "Antimatter"],
+        ["Angel", "The Open Mic Night singer once linked romantically to Margaret.", "Singer", "OpenMic"],
+        ["Baby Ducks", "The tiny fighters summoned by a magic rattle.", "Birds", "Rattle"],
+        ["Bobby", "Muscle Man's nursery-worker friend who always laughs at his jokes.", "Friend", "Nursery"],
+        ["Carrey O'Key", "A karaoke-themed one-off tied to the embarrassing recording.", "Karaoke", "Recording"],
+        ["Death", "The supernatural arm-wrestler who collects souls.", "Afterlife", "ArmWrestling"],
+        ["Doug Shablowski", "The temporary groundskeeper who copies Rigby's life too perfectly.", "Worker", "Replacement"],
+        ["Duck Collector", "The hunter determined to add the baby ducks to his collection.", "Hunter", "BabyDucks"],
+        ["Father Time", "The clock-headed keeper Mordecai seeks after jealousy breaks time.", "Time", "Jealousy"],
+        ["Garrett Bobby Ferguson", "The giant floating face guarding the Broken Bonez record.", "Arcade", "GBF"],
+        ["The Hammer", "The unbeatable television-game boss waiting beyond the final level.", "Boss", "Television"],
+        ["Leon", "The Park's former manager who quit responsibility for a slacker utopia.", "Manager", "Utopia"],
+        ["Low-Five Ghost", "Hi Five Ghost's tougher, lower-fiving brother.", "Ghost", "Brother"],
+        ["Mama Duck", "The enormous mother who arrives when her ducklings are threatened.", "Bird", "Collector"],
+        ["Matt", "The Movie Shack Hut advertiser inside the British Taxi costume.", "Advertiser", "Govnor"],
+        ["Muscle Bro", "Muscle Man's older brother, introduced through the fake family-photo prank.", "Brother", "MyMom"],
+        ["Negative Rigby", "The hostile scratched version of Rigby created by a jinx.", "Double", "Jinx"],
+        ["Party Pete", "The professional party starter powered far beyond safe limits.", "Party", "RadiCola"],
+        ["Peeps", "Benson's surveillance service taken to giant-eyeball extremes.", "Watching", "Eyeball"],
+        ["Simon & Adam", "The brown-haired and blond duo buried deep in Season Two's cast.", "Duo", "BrownBlonde"],
+        ["Sir Gabelthorp", "The self-styled knight who builds castles from dirty mattresses.", "Knight", "MattressCastle"],
+        ["Susan", "The replacement manager who turns the staff into copies of herself.", "Manager", "Duplicates"],
+        ["VG", "The old video-store employee trapped inside a sci-fi movie.", "VideoStore", "Starlight"],
+        ["Zombies", "The cemetery audience awakened during an outdoor movie night.", "Undead", "GraveSights"],
+        ["Hooligan", "A threatening figure inside Rigby's British Taxi nightmare.", "Dream", "Govnor"],
+        ["Dizzy Zombies", "The mirrored creatures produced by Pops' dangerous spinning.", "Copies", "Spinning"],
+        ["Jimmy (Taco'Clock Worker)", "The fast-food employee who calls Mordecai and Rigby losers.", "Worker", "TacoClock"],
+        ["Jack Farley", "The businessman impressed by Mordecai and Rigby's supposed coolness.", "Businessman", "Awesome"],
+        ["Young Gamers", "The skateboarding kids who humiliate the pair during their high-score chase.", "Gamers", "HighScore"],
+        ["Centaurs", "Unexpected guests who turn up at Mordecai and Rigby's party.", "PartyGuests", "Party"],
+        ["Guest on Fire", "A bizarre party guest remembered for both flames and a toilet.", "PartyGuest", "Toilet"],
+        ["Jinx Demons", "The creatures people become after Negative Rigby scratches them.", "Demons", "Scratch"],
+        ["Howard Fightington", "A named zombie from the disastrous cemetery screening.", "Zombie", "GraveSights"],
+        ["Museum Guards", "The guards protecting the future museum built around the Night Owl.", "Guards", "Eighties"],
+        ["Teacher", "The college teacher who throws Rigby out but passes Eileen.", "College", "MoreSmarter"],
+        ["Rochambeau Monster", "The creature summoned by one hundred rock-paper-scissors ties.", "Monster", "HundredTies"],
+        ["Wedgie Ninja", "One of the ridiculous figures used in the pair's viral-video attempt.", "Ninja", "GoViral"],
+        ["Road Hog", "The reckless driving pig from the viral-video chaos.", "Driver", "GoViral"],
+        ["Old Man Horseshoes", "The horseshoe-handed stunt figure struck by lightning.", "Stunt", "GoViral"],
+        ["Carl", "The bouncer who repeatedly keeps the duo out.", "Bouncer", "Door"],
+        ["Audrey", "Benson's neighbour and crush during a dangerously memorable party.", "Romance", "MississippiQueen"],
+        ["Blondes", "The group Rigby tries to join after changing his hair.", "Hair", "Bet"],
+        ["Capicola Gang", "The animatronic criminals hunting the diamonds inside Pops' gift.", "Robots", "FuzzyDice"],
+        ["Chuck", "Audrey's hostile ex at the Weekend at Benson's party.", "ExBoyfriend", "Party"],
+        ["Dave", "Benson's former stick-hockey apprentice with a gruesome fate.", "Apprentice", "Table"],
+        ["Death Bear", "The pickelhaube-wearing former zoo bear found in an abandoned park.", "Animal", "Helmet"],
+        ["Eggscellent Knight", "The silent figure guarding the prize for an impossible omelette.", "Challenge", "Hat"],
+        ["Eggscellent Manager", "The restaurant boss overseeing the giant-omelette challenge.", "Restaurant", "Omelette"],
+        ["Gene", "The East Pines manager and Benson's aggressively competitive rival.", "Manager", "EastPines"],
+        ["God of Basketball", "The being who grants Mordecai and Rigby impossible court skills.", "Powers", "SlamDunk"],
+        ["Herb & Rose", "Starla's parents, introduced together in Season Three.", "Parents", "Starla"],
+        ["Klorgbane the Destroyer", "Skips' ancient enemy who returns on a fixed cycle.", "Immortal", "Fists"],
+        ["Mona", "Skips' lost love from his much earlier life.", "Romance", "Walks"],
+        ["Muscle Dad", "Muscle Man's legendary prankster father and secret forklift operator.", "Father", "Forklift"],
+        ["Skull Punch", "The supposedly British death-metal band haunting an old RV.", "Band", "CrashPit"],
+        ["Techmo", "Skips' upgraded friend who understands technology far better than he does.", "Technology", "Virus"],
+        ["Park Ranger", "The official who catches the group camping in a restricted forest.", "Ranger", "StagMan"],
+        ["Das Coolest Employee", "The shop worker impressed by the duo's expensive attempt to look cool.", "Shop", "CoolBikes"],
+        ["Big Trouble", "A rival CrewCrew rapper from Pops' poetry battle.", "Rapper", "CrewCrew"],
+        ["Chad Ironchest", "The fake boyfriend used to make Mordecai jealous while cruising.", "FakeDate", "Cruisin"]
+      ].map(([word, hint, imposterHint, starterHint]) => ({ word, hint, imposterHint, starterHint })),
+      places: [
+        ["Just Set Up the Chairs", "Season One: a birthday setup unleashes an arcade villain.", "Episode", "DestroyerOfWorlds"],
+        ["Caffeinated Concert Tickets", "Season One: extreme coffee is traded for a Fist Pump show.", "Episode", "CoffeeBean"],
+        ["Death Punchies", "Season One: Rigby learns a move far beyond ordinary punchies.", "Episode", "Sensai"],
+        ["Free Cake", "Season One: the crew interrupts Skips' eternal-youth ritual.", "Episode", "Guardians"],
+        ["Meat Your Maker", "Season One: a broken freezer creates a sentient-hot-dog crisis.", "Episode", "MeatLocker"],
+        ["The Unicorns Have Got to Go", "Season One: Rigby's cologne attracts unbearable party guests.", "Episode", "Cologne"],
+        ["Prank Callers", "Season One: a forbidden phone number sends the pair back to 1982.", "Episode", "Telephone"],
+        ["Rigby's Body", "Season One: too much junk food separates Rigby from his body.", "Episode", "Body"],
+        ["Mordecai and the Rigbys", "Season One: lip-syncing leads to a message from a future band.", "Episode", "FutureTape"],
+        ["Appreciation Day", "Season Two: Benson's angry employee records rewrite the future.", "Episode", "Book"],
+        ["Dizzy", "Season Two: Pops' spinning lesson produces mirrored monsters.", "Episode", "Carousel"],
+        ["Benson Be Gone", "Season Two: Susan replaces Benson and remakes the Park in her image.", "Episode", "Susan"],
+        ["But I Have a Receipt", "Season Two: a refund dispute sends a fantasy board game into reality.", "Episode", "Darthon"],
+        ["Muscle Woman", "Season Two: Muscle Man's breakup pulls the whole Park into Starla's rage.", "Episode", "Starla"],
+        ["Temp Check", "Season Two: an ideal temporary worker quietly takes over Rigby's life.", "Episode", "Doug"],
+        ["See You There", "Season Two: the duo sneak into a party after Muscle Man excludes them.", "Episode", "Bobby"],
+        ["Go Viral", "Season Two: increasingly reckless stunts chase an impossible view count.", "Episode", "Internet"],
+        ["Stick Hockey", "Season Three: Benson's favourite game table is marked for destruction.", "Episode", "Dave"],
+        ["Bet to Be Blonde", "Season Three: Rigby's new hair changes far more than his appearance.", "Episode", "Wig"],
+        ["Camping Can Be Cool", "Season Three: a restricted campsite belongs to a dangerous Stag-Man.", "Episode", "Ranger"],
+        ["House Rules", "Season Three: escaping Benson's rules leads to an anarchic realm.", "Episode", "NoRules"],
+        ["Cruisin'", "Season Three: two fake boyfriends complicate a bet for phone numbers.", "Episode", "Ironchest"],
+        ["Under the Hood", "Season Three: the crew hunts the real graffiti artist, Park Avenue.", "Episode", "Graffiti"],
+        ["Fortune Cookie", "Season Three: Rigby swaps fortunes with Benson and ruins his luck.", "Episode", "Warlock"],
+        ["Gut Model", "Season Three: Muscle Man leaves the Park for a magazine modelling job.", "Episode", "MommyMonthly"]
+      ].map(([word, hint, imposterHint, starterHint]) => ({ word, hint, imposterHint, starterHint })),
+      things: [
+        ["Brain Max", "The green-apple shortcut Rigby buys to become more intelligent.", "Product", "Diploma"],
+        ["Quartz, Parchment, Shears", "The dangerous Lolliland version of rock, paper, scissors.", "Game", "HundredTies"],
+        ["Broken Bonez", "The arcade game whose impossible record belongs to GBF.", "Game", "HighScore"],
+        ["Creepy Doll", "Pops' childhood toy that becomes murderous in a Halloween story.", "Toy", "TerrorTales"],
+        ["Stick Hockey Table", "Benson's beloved game table from his apprentice days.", "Game", "Dave"],
+        ["Mommy Monthly", "The magazine that hires Muscle Man as a gut model.", "Magazine", "FilbertMulligan"],
+        ["The Hungry, Hungry Soul-Sucking Death Worm", "The pull-tab book that releases exactly what its title promises.", "Book", "Thomas"],
+        ["Death Bear's Pickelhaube", "The spiked helmet worn by the abandoned-zoo bear.", "Clothing", "Zoo"],
+        ["The Realm of Darthon", "The live-action fantasy game whose villains cross into reality.", "Game", "Receipt"],
+        ["Blonde Wig", "The hairpiece that changes Rigby's voice, attitude and social circle.", "Clothing", "Bet"],
+        ["Cool Bikes", "The over-accessorised bicycles that send the duo to galactic court.", "Vehicles", "CoolCourt"],
+        ["Trash Boat Tattoo", "The permanent reminder of Rigby's short-lived legal name.", "Tattoo", "TheUrge"],
+        ["Fists of Justice", "The ancient power Skips prepares for his recurring showdown.", "Power", "Klorgbane"]
+      ].map(([word, hint, imposterHint, starterHint]) => ({ word, hint, imposterHint, starterHint }))
+    };
+
+    EARLY_SEASON_WORDS.characters.forEach(item => {
+      item.theme = "Early-season character";
+    });
+    EARLY_SEASON_WORDS.places.forEach(item => {
+      item.theme = "Early-season episode";
+    });
+    EARLY_SEASON_WORDS.things.forEach(item => { item.theme = "Early-season item or media"; });
+
+    Object.entries(EXTRA_WORDS).forEach(([pack, items]) => PACKS[pack].items.push(...items));
+    Object.entries(EARLY_SEASON_WORDS).forEach(([pack, items]) => PACKS[pack].items.push(...items));
 
     const els = Object.fromEntries(Array.from(document.querySelectorAll("[id]")).map(el => [el.id, el]));
     const screens = ["setupScreen", "revealScreen", "readyScreen", "discussionScreen", "voteScreen", "resultScreen"];
@@ -1337,6 +1811,16 @@
       return state.pack === "mixed" ? "Anything Goes" : PACKS[state.pack].name;
     }
 
+    function secretTheme() {
+      if (state.secret.theme) return state.secret.theme;
+      const pack = Object.entries(PACKS).find(([, value]) => value.items.includes(state.secret))?.[0];
+      return {
+        characters: "Supporting or one-off character",
+        places: "Episode title",
+        things: "Prop, food, vehicle or fictional media"
+      }[pack] || packName();
+    }
+
     function validateNames(names) {
       const normalized = names.map(name => name.toLocaleLowerCase());
       if (new Set(normalized).size !== normalized.length) {
@@ -1404,14 +1888,14 @@
       els.privacyCard.setAttribute("aria-label", isImposter ? "You are the imposter" : `Your secret is ${state.secret.word}`);
       if (isImposter) {
         const hintWord = isStarter
-          ? STARTER_HINTS[state.secret.word] || IMPOSTER_HINTS[state.secret.word] || packName()
-          : IMPOSTER_HINTS[state.secret.word] || packName();
+          ? state.secret.starterHint || STARTER_HINTS[state.secret.word] || state.secret.imposterHint || IMPOSTER_HINTS[state.secret.word] || packName()
+          : state.secret.imposterHint || IMPOSTER_HINTS[state.secret.word] || packName();
         els.roleContent.innerHTML = `
           <span class="card-icon">🕵️</span>
           <span class="secret-label">Your role</span>
           <span class="secret-word">Imposter</span>
           <span class="secret-hint">${state.hints
-            ? `${isStarter ? "<strong>You give the first clue.</strong><br>" : ""}The pack is <strong>${escapeHtml(packName())}</strong><br>${isStarter ? "Starter hint" : "Hint word"}: <strong>${escapeHtml(hintWord)}</strong>`
+            ? `${isStarter ? "<strong>You give the first clue.</strong><br>" : ""}Theme: <strong>${escapeHtml(secretTheme())}</strong><br>${isStarter ? "Starter hint" : "Hint word"}: <strong>${escapeHtml(hintWord)}</strong>`
             : "You get no hint this round. Listen carefully and blend in."}</span>`;
         clickSound(150, .06);
       } else {
