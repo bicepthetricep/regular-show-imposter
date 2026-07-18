@@ -1,4 +1,5 @@
 <!doctype html>
+<!-- Fresh eight-pack build -->
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -845,6 +846,9 @@
               <button class="chip" type="button" data-pack="places"><strong>Obscure Episodes</strong><small>Deep cuts from Seasons 1–3 and beyond</small></button>
               <button class="chip" type="button" data-pack="things"><strong>Obscure Media &amp; Items</strong><small>Fake shows, products, games &amp; props</small></button>
               <button class="chip" type="button" data-pack="familiar"><strong>Fan Favourites</strong><small>Recognisable references for repeat viewers</small></button>
+              <button class="chip" type="button" data-pack="familiarCharacters"><strong>Main Cast &amp; Friends</strong><small>Familiar characters and recurring faces</small></button>
+              <button class="chip" type="button" data-pack="familiarEpisodes"><strong>Popular Episodes</strong><small>Memorable stories from across the show</small></button>
+              <button class="chip" type="button" data-pack="parkLife"><strong>Park Life</strong><small>Places, items, foods and running jokes</small></button>
               <button class="chip" type="button" data-pack="mixed"><strong>Anything Goes</strong><small>All packs shuffled together</small></button>
             </div>
           </div>
@@ -1511,7 +1515,7 @@
       ].map(([word, starterHint]) => ({
         word,
         hint: "A less-remembered episode title from the middle or later seasons.",
-        imposterHint: "Episode",
+        imposterHint: starterHint.replace(/([a-z])([A-Z])/g, "$1 $2"),
         starterHint
       })),
       things: [
@@ -1632,31 +1636,31 @@
         ["Chad Ironchest", "The fake boyfriend used to make Mordecai jealous while cruising.", "FakeDate", "Cruisin"]
       ].map(([word, hint, imposterHint, starterHint]) => ({ word, hint, imposterHint, starterHint })),
       places: [
-        ["Just Set Up the Chairs", "Season One: a birthday setup unleashes an arcade villain.", "Episode", "DestroyerOfWorlds"],
-        ["Caffeinated Concert Tickets", "Season One: extreme coffee is traded for a Fist Pump show.", "Episode", "CoffeeBean"],
-        ["Death Punchies", "Season One: Rigby learns a move far beyond ordinary punchies.", "Episode", "Sensai"],
-        ["Free Cake", "Season One: the crew interrupts Skips' eternal-youth ritual.", "Episode", "Guardians"],
-        ["Meat Your Maker", "Season One: a broken freezer creates a sentient-hot-dog crisis.", "Episode", "MeatLocker"],
-        ["The Unicorns Have Got to Go", "Season One: Rigby's cologne attracts unbearable party guests.", "Episode", "Cologne"],
-        ["Prank Callers", "Season One: a forbidden phone number sends the pair back to 1982.", "Episode", "Telephone"],
-        ["Rigby's Body", "Season One: too much junk food separates Rigby from his body.", "Episode", "Body"],
-        ["Mordecai and the Rigbys", "Season One: lip-syncing leads to a message from a future band.", "Episode", "FutureTape"],
-        ["Appreciation Day", "Season Two: Benson's angry employee records rewrite the future.", "Episode", "Book"],
-        ["Dizzy", "Season Two: Pops' spinning lesson produces mirrored monsters.", "Episode", "Carousel"],
-        ["Benson Be Gone", "Season Two: Susan replaces Benson and remakes the Park in her image.", "Episode", "Susan"],
-        ["But I Have a Receipt", "Season Two: a refund dispute sends a fantasy board game into reality.", "Episode", "Darthon"],
-        ["Muscle Woman", "Season Two: Muscle Man's breakup pulls the whole Park into Starla's rage.", "Episode", "Starla"],
-        ["Temp Check", "Season Two: an ideal temporary worker quietly takes over Rigby's life.", "Episode", "Doug"],
-        ["See You There", "Season Two: the duo sneak into a party after Muscle Man excludes them.", "Episode", "Bobby"],
-        ["Go Viral", "Season Two: increasingly reckless stunts chase an impossible view count.", "Episode", "Internet"],
-        ["Stick Hockey", "Season Three: Benson's favourite game table is marked for destruction.", "Episode", "Dave"],
-        ["Bet to Be Blonde", "Season Three: Rigby's new hair changes far more than his appearance.", "Episode", "Wig"],
-        ["Camping Can Be Cool", "Season Three: a restricted campsite belongs to a dangerous Stag-Man.", "Episode", "Ranger"],
-        ["House Rules", "Season Three: escaping Benson's rules leads to an anarchic realm.", "Episode", "NoRules"],
-        ["Cruisin'", "Season Three: two fake boyfriends complicate a bet for phone numbers.", "Episode", "Ironchest"],
-        ["Under the Hood", "Season Three: the crew hunts the real graffiti artist, Park Avenue.", "Episode", "Graffiti"],
-        ["Fortune Cookie", "Season Three: Rigby swaps fortunes with Benson and ruins his luck.", "Episode", "Warlock"],
-        ["Gut Model", "Season Three: Muscle Man leaves the Park for a magazine modelling job.", "Episode", "MommyMonthly"]
+        ["Just Set Up the Chairs", "Season One: a birthday setup unleashes an arcade villain.", "Arcade", "DestroyerOfWorlds"],
+        ["Caffeinated Concert Tickets", "Season One: extreme coffee is traded for a Fist Pump show.", "Coffee", "CoffeeBean"],
+        ["Death Punchies", "Season One: Rigby learns a move far beyond ordinary punchies.", "Fighting", "Sensai"],
+        ["Free Cake", "Season One: the crew interrupts Skips' eternal-youth ritual.", "Birthday", "Guardians"],
+        ["Meat Your Maker", "Season One: a broken freezer creates a sentient-hot-dog crisis.", "Hot dogs", "MeatLocker"],
+        ["The Unicorns Have Got to Go", "Season One: Rigby's cologne attracts unbearable party guests.", "Cologne", "Cologne"],
+        ["Prank Callers", "Season One: a forbidden phone number sends the pair back to 1982.", "Telephone", "Telephone"],
+        ["Rigby's Body", "Season One: too much junk food separates Rigby from his body.", "Junk food", "Body"],
+        ["Mordecai and the Rigbys", "Season One: lip-syncing leads to a message from a future band.", "Band", "FutureTape"],
+        ["Appreciation Day", "Season Two: Benson's angry employee records rewrite the future.", "Employee records", "Book"],
+        ["Dizzy", "Season Two: Pops' spinning lesson produces mirrored monsters.", "Spinning", "Carousel"],
+        ["Benson Be Gone", "Season Two: Susan replaces Benson and remakes the Park in her image.", "New manager", "Susan"],
+        ["But I Have a Receipt", "Season Two: a refund dispute sends a fantasy board game into reality.", "Board game", "Darthon"],
+        ["Muscle Woman", "Season Two: Muscle Man's breakup pulls the whole Park into Starla's rage.", "Breakup", "Starla"],
+        ["Temp Check", "Season Two: an ideal temporary worker quietly takes over Rigby's life.", "Replacement worker", "Doug"],
+        ["See You There", "Season Two: the duo sneak into a party after Muscle Man excludes them.", "Party", "Bobby"],
+        ["Go Viral", "Season Two: increasingly reckless stunts chase an impossible view count.", "Stunts", "Internet"],
+        ["Stick Hockey", "Season Three: Benson's favourite game table is marked for destruction.", "Table game", "Dave"],
+        ["Bet to Be Blonde", "Season Three: Rigby's new hair changes far more than his appearance.", "Hair", "Wig"],
+        ["Camping Can Be Cool", "Season Three: a restricted campsite belongs to a dangerous Stag-Man.", "Campsite", "Ranger"],
+        ["House Rules", "Season Three: escaping Benson's rules leads to an anarchic realm.", "No rules", "NoRules"],
+        ["Cruisin'", "Season Three: two fake boyfriends complicate a bet for phone numbers.", "Dating", "Ironchest"],
+        ["Under the Hood", "Season Three: the crew hunts the real graffiti artist, Park Avenue.", "Graffiti", "Graffiti"],
+        ["Fortune Cookie", "Season Three: Rigby swaps fortunes with Benson and ruins his luck.", "Bad luck", "Warlock"],
+        ["Gut Model", "Season Three: Muscle Man leaves the Park for a magazine modelling job.", "Modelling", "MommyMonthly"]
       ].map(([word, hint, imposterHint, starterHint]) => ({ word, hint, imposterHint, starterHint })),
       things: [
         ["Brain Max", "The green-apple shortcut Rigby buys to become more intelligent.", "Product", "Diploma"],
@@ -1703,31 +1707,31 @@
       ["Garrett Bobby Ferguson Jr.", "The contractor who assembles a familiar army at Exit 9B.", "Contractor", "Exit9B", "Familiar character"],
       ["Grand Master of Death Kwon Do", "The martial-arts master behind the deadliest fighting style in the show.", "MartialArts", "DeathKwonDo", "Familiar character"],
 
-      ["Eggscellent", "Rigby's allergy turns a giant-omelette challenge into Mordecai's mission.", "Episode", "Omelette", "Popular episode"],
-      ["Exit 9B", "The scattered Park crew reunites to fight an army of returning villains.", "Episode", "Portal", "Popular episode"],
-      ["High Score", "Mordecai and Rigby chase an arcade record held by a giant floating face.", "Episode", "GBF", "Popular episode"],
-      ["More Smarter", "Rigby uses a questionable product to prove he is not the less intelligent friend.", "Episode", "BrainMax", "Popular episode"],
-      ["Rage Against the TV", "A broken television threatens the duo's attempt to reach a game's final boss.", "Episode", "TheHammer", "Popular episode"],
-      ["Grave Sights", "A cemetery movie night accidentally gives the audience a reason to rise.", "Episode", "Zombies", "Popular episode"],
-      ["A Bunch of Baby Ducks", "A magic rattle summons four tiny but surprisingly powerful fighters.", "Episode", "Rattle", "Popular episode"],
-      ["Skips Strikes", "A bowling rematch forces Skips to confront his old supernatural team.", "Episode", "Bowling", "Popular episode"],
-      ["Weekend at Benson's", "One party and one extremely spicy drink make Benson's weekend unforgettable.", "Episode", "MississippiQueen", "Popular episode"],
-      ["Trash Boat", "Rigby legally adopts a name that becomes much harder to enjoy.", "Episode", "TheUrge", "Popular episode"],
-      ["The Best Burger in the World", "The crew races Benson's strict schedule to try a legendary limited burger.", "Episode", "Ultimeatum", "Popular episode"],
-      ["Dead at Eight", "Mordecai and Rigby babysit Death's child while Muscle Man's soul is at risk.", "Episode", "Death", "Popular episode"],
-      ["Terror Tales of the Park", "The first collection of the Park crew's Halloween stories.", "Episode", "Halloween", "Popular episode"],
-      ["Slam Dunk", "A supernatural coach gives Mordecai and Rigby impossible basketball abilities.", "Episode", "Basketball", "Popular episode"],
-      ["Butt Dial", "Mordecai must erase an embarrassing voicemail before Margaret hears it.", "Episode", "Voicemail", "Popular episode"],
-      ["Video Game Wizards", "A competition for an unusual controller strains Rigby and Mordecai's team.", "Episode", "MaximumGlove", "Popular episode"],
-      ["Busted Cart", "The Park's damaged vehicle must survive a long trip without Benson finding out.", "Episode", "Vehicle", "Popular episode"],
-      ["The Best VHS in the World", "An overdue rental tape becomes a dangerous retrieval mission.", "Episode", "Rental", "Popular episode"],
-      ["Trucker Hall of Fame", "Muscle Man follows his father's final instructions and learns the truth.", "Episode", "Forklift", "Popular episode"],
-      ["Bad Kiss", "Mordecai's awkward first kiss leads to repeated attempts to repair the moment.", "Episode", "TimeTravel", "Popular episode"],
-      ["Sugar Rush", "A doughnut contest fills the Park crew with dangerously excessive energy.", "Episode", "Doughnuts", "Popular episode"],
-      ["Really Real Wrestling", "Pops enters a wrestling event that is far more real than expected.", "Episode", "Wrestling", "Popular episode"],
-      ["Karaoke Video", "The Park crew races to stop an embarrassing performance from being released.", "Episode", "Recording", "Popular episode"],
-      ["The Night Owl", "A collector traps the crew in the eighties as part of his display.", "Episode", "Eighties", "Popular episode"],
-      ["Do Me a Solid", "Rigby pushes Mordecai through an escalating chain of owed favours.", "Episode", "Favour", "Popular episode"],
+      ["Eggscellent", "Rigby's allergy turns a giant-omelette challenge into Mordecai's mission.", "Food challenge", "Omelette", "Episode"],
+      ["Exit 9B", "The scattered Park crew reunites to fight an army of returning villains.", "Highway", "Portal", "Episode"],
+      ["High Score", "Mordecai and Rigby chase an arcade record held by a giant floating face.", "Arcade", "GBF", "Episode"],
+      ["More Smarter", "Rigby uses a questionable product to prove he is not the less intelligent friend.", "School", "BrainMax", "Episode"],
+      ["Rage Against the TV", "A broken television threatens the duo's attempt to reach a game's final boss.", "Video game", "TheHammer", "Episode"],
+      ["Grave Sights", "A cemetery movie night accidentally gives the audience a reason to rise.", "Cemetery", "Zombies", "Episode"],
+      ["A Bunch of Baby Ducks", "A magic rattle summons four tiny but surprisingly powerful fighters.", "Birds", "Rattle", "Episode"],
+      ["Skips Strikes", "A bowling rematch forces Skips to confront his old supernatural team.", "Sport", "Bowling", "Episode"],
+      ["Weekend at Benson's", "One party and one extremely spicy drink make Benson's weekend unforgettable.", "Party", "MississippiQueen", "Episode"],
+      ["Trash Boat", "Rigby legally adopts a name that becomes much harder to enjoy.", "New name", "TheUrge", "Episode"],
+      ["The Best Burger in the World", "The crew races Benson's strict schedule to try a legendary limited burger.", "Food", "Ultimeatum", "Episode"],
+      ["Dead at Eight", "Mordecai and Rigby babysit Death's child while Muscle Man's soul is at risk.", "Babysitting", "Death", "Episode"],
+      ["Terror Tales of the Park", "The first collection of the Park crew's Halloween stories.", "Scary stories", "Halloween", "Episode"],
+      ["Slam Dunk", "A supernatural coach gives Mordecai and Rigby impossible basketball abilities.", "Sport", "Basketball", "Episode"],
+      ["Butt Dial", "Mordecai must erase an embarrassing voicemail before Margaret hears it.", "Phone", "Voicemail", "Episode"],
+      ["Video Game Wizards", "A competition for an unusual controller strains Rigby and Mordecai's team.", "Gaming", "MaximumGlove", "Episode"],
+      ["Busted Cart", "The Park's damaged vehicle must survive a long trip without Benson finding out.", "Road trip", "Vehicle", "Episode"],
+      ["The Best VHS in the World", "An overdue rental tape becomes a dangerous retrieval mission.", "Video rental", "VHS", "Episode"],
+      ["Trucker Hall of Fame", "Muscle Man follows his father's final instructions and learns the truth.", "Family", "Forklift", "Episode"],
+      ["Bad Kiss", "Mordecai's awkward first kiss leads to repeated attempts to repair the moment.", "Romance", "TimeTravel", "Episode"],
+      ["Sugar Rush", "A doughnut contest fills the Park crew with dangerously excessive energy.", "Food", "Doughnuts", "Episode"],
+      ["Really Real Wrestling", "Pops enters a wrestling event that is far more real than expected.", "Sport", "Wrestling", "Episode"],
+      ["Karaoke Video", "The Park crew races to stop an embarrassing performance from being released.", "Singing", "Recording", "Episode"],
+      ["The Night Owl", "A collector traps the crew in the eighties as part of his display.", "Museum", "Eighties", "Episode"],
+      ["Do Me a Solid", "Rigby pushes Mordecai through an escalating chain of owed favours.", "Favours", "Solid", "Episode"],
 
       ["The Park", "The workplace where ordinary chores regularly become supernatural disasters.", "Place", "Groundskeepers", "Familiar place, item or joke"],
       ["Park House", "The shared home containing Benson's office and the crew's usual hangout spots.", "Place", "LivingRoom", "Familiar place, item or joke"],
@@ -1754,6 +1758,18 @@
     PACKS.familiar = {
       name: "Fan Favourites",
       items: FAMILIAR_WORDS
+    };
+    PACKS.familiarCharacters = {
+      name: "Main Cast & Friends",
+      items: FAMILIAR_WORDS.slice(0, 15)
+    };
+    PACKS.familiarEpisodes = {
+      name: "Popular Episodes",
+      items: FAMILIAR_WORDS.slice(15, 40)
+    };
+    PACKS.parkLife = {
+      name: "Park Life",
+      items: FAMILIAR_WORDS.slice(40)
     };
 
     const els = Object.fromEntries(Array.from(document.querySelectorAll("[id]")).map(el => [el.id, el]));
@@ -1874,7 +1890,10 @@
     }
 
     function activePackItems() {
-      if (state.pack === "mixed") return Object.values(PACKS).flatMap(pack => pack.items);
+      if (state.pack === "mixed") {
+        const allItems = Object.values(PACKS).flatMap(pack => pack.items);
+        return [...new Map(allItems.map(item => [item.word, item])).values()];
+      }
       return PACKS[state.pack].items;
     }
 
@@ -1958,9 +1977,12 @@
       els.privacyCard.classList.add("revealed", isImposter ? "imposter" : "crew");
       els.privacyCard.setAttribute("aria-label", isImposter ? "You are the imposter" : `Your secret is ${state.secret.word}`);
       if (isImposter) {
-        const hintWord = isStarter
+        const rawHintWord = isStarter
           ? state.secret.starterHint || STARTER_HINTS[state.secret.word] || state.secret.imposterHint || IMPOSTER_HINTS[state.secret.word] || packName()
           : state.secret.imposterHint || IMPOSTER_HINTS[state.secret.word] || packName();
+        const hintWord = /^episodes?$/i.test(String(rawHintWord).trim())
+          ? state.secret.hint || "Regular Show clue"
+          : rawHintWord;
         els.roleContent.innerHTML = `
           <span class="card-icon">🕵️</span>
           <span class="secret-label">Your role</span>
